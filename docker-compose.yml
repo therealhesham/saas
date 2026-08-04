@@ -1,0 +1,25 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: rawaes-site-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rawaes_root
+      MYSQL_DATABASE: rawaes_site
+      MYSQL_USER: rawaes
+      MYSQL_PASSWORD: rawaes_pass
+    # بورت 3307 على الجهاز عشان مايتعارضش مع أي MySQL تاني شغال
+    ports:
+      - "3307:3306"
+    volumes:
+      - rawaes-site-db:/var/lib/mysql
+      # بيتنفّذ مرة واحدة أول ما الداتا فوليوم يتعمل من الصفر
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-prawaes_root"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  rawaes-site-db:

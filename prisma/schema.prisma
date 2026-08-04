@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  /// معرّف نصّي يستخدم في الرابط، لازم يكون فريد
+  slug        String   @unique @db.VarChar(80)
+  name        String   @db.VarChar(120)
+  tagline     String   @db.VarChar(160)
+  description String   @db.Text
+  /// اسم أيقونة من lucide-react، بيتحوّل لمكوّن عبر allowlist في lib/product-icons.ts
+  icon        String   @default("Blocks") @db.VarChar(60)
+  /// مفتاح لون من ثوابت PRODUCT_ACCENTS
+  accent      String   @default("sky") @db.VarChar(20)
+  /// النقاط المميزة، متخزنة JSON عشان MySQL مابيدعمش مصفوفات
+  highlights  Json
+  /// ترتيب العرض في الصفحة، الأقل يظهر الأول
+  position    Int      @default(0)
+  /// لو false المنتج بيتخفي من الصفحة من غير حذف
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, position])
+}

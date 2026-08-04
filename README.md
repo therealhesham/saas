@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# روائس — الموقع التعريفي
 
-## Getting Started
+موقع عربي RTL مبني على Next.js 16 + Tailwind v4 + Prisma + MySQL.
+المنتجات المعروضة في الصفحة الرئيسية بتتدار من لوحة تحكم محمية.
 
-First, run the development server:
+## التشغيل السريع
 
 ```bash
+cp .env.example .env       # وغيّر القيم
+npm install
+npm run db:up              # كونتينر MySQL محلي (اختياري — شوف تحت)
+npm run db:migrate
+npm run db:seed
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- الموقع: `http://localhost:3000`
+- لوحة التحكم: `http://localhost:3000/admin`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## قاعدة البيانات
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+الكود مش مرتبط بمكان قاعدة البيانات — الفرق كله في `DATABASE_URL`.
 
-## Learn More
+### قاعدة بيانات خارجية (الوضع المستهدف)
 
-To learn more about Next.js, take a look at the following resources:
+بدّل `DATABASE_URL` في `.env` لرابط الاستضافة، وشغّل:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run db:deploy
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+استخدم `db:deploy` **مش** `db:migrate` على قاعدة خارجية. السبب إن
+`prisma migrate dev` بيعمل داتابيز مؤقتة (shadow database) عشان يقارن
+المايجريشنز، وأغلب الاستضافات المُدارة مابتديش صلاحية إنشاء داتابيز.
+أما `migrate deploy` فبيطبّق ملفات المايجريشن الجاهزة على طول من غير
+ما يحتاج الصلاحية دي.
 
-## Deploy on Vercel
+نقاط مهمة في رابط الاتصال الخارجي:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| الحالة | الحل |
+|---|---|
+| الاستضافة بتفرض SSL | ضيف `?sslaccept=strict` في آخر الرابط |
+| شهادة self-signed | `?sslaccept=accept_invalid_certs` |
+| الباسورد فيه `@ : / ? #` | اعملهم URL-encode (`@` تبقى `%40`) |
+| الاتصال بيترفض | اسمح للـ IP بتاع السيرفر في firewall الاستضافة |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+> `next build` بيولّد الصفحة الرئيسية ساعة البناء، يعني لازم قاعدة البيانات
+> تكون شغالة ومتاحة وقت البناء مش وقت التشغيل بس.
+
+### الكونتينر المحلي
+
+`docker-compose.yml` موجود لتسهيل التطوير المحلي بس. لو شغّال على قاعدة
+خارجية مش محتاجه خالص — تجاهل `npm run db:up`.
+
+بيشتغل على بورت **3307** عشان مايتعارضش مع أي MySQL تاني على الجهاز، وبيعمل
+grant للصلاحية اللي Prisma محتاجاها للـ shadow database
+(`docker/mysql-init/01-shadow-db-grant.sql`).
+
+## لوحة التحكم
+
+محمية بباسورد واحد. الجلسة كوكي `HttpOnly` موقّعة بـ HMAC، والحماية على
+طبقتين: `proxy.ts` بيمنع الوصول للصفحات، وكل Server Action بينادي
+`requireAdmin()` بنفسه — لأن الـ Server Actions ممكن تتنادى بـ POST مباشر
+من غير ما تعدّي على الصفحة أصلاً.
+
+لتغيير الباسورد:
+
+```bash
+npm run admin:password -- "الباسورد الجديد"
+# وحط السطر الناتج في .env
+```
+
+قبل أي نشر حقيقي **لازم** تغيّر `AUTH_SECRET` لقيمة عشوائية:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+## صورة اللاب توب في الهيرو
+
+حط الصورة في `public/screenshots/hero.png` (أو `.jpg` / `.webp`) وهتظهر
+تلقائياً من غير تعديل كود. لو الملف مش موجود بتتعرض واجهة بديلة مرسومة
+بالـ HTML. التفاصيل في `public/screenshots/README.md`.
+
+## أوامر مفيدة
+
+| الأمر | الوظيفة |
+|---|---|
+| `npm run db:studio` | واجهة Prisma لتصفح البيانات |
+| `npm run db:seed` | إدخال المنتجات الأساسية (بـ upsert، آمن التكرار) |
+| `npm run db:deploy` | تطبيق المايجريشنز على قاعدة خارجية |
+
+## ملاحظات تقنية
+
+- **Node.js**: Prisma 6 مستخدم بدل 7 لأن 7 محتاج Node ‏20.19+ والجهاز على 20.18.
+  لو رفّعت Node تقدر ترفّع Prisma.
+- **`proxy.ts`**: في Next.js 16 اتغيّر اسم `middleware` لـ `proxy` والـ runtime
+  بقى nodejs دايماً.
+- **الأيقونات**: من `lucide-react` و `react-icons` بس. أسماء الأيقونات
+  المخزّنة في الداتابيز بتتحوّل لمكوّنات عبر allowlist في `lib/product-icons.ts`
+  عشان محدش يقدر يحقن اسم عشوائي من اللوحة.

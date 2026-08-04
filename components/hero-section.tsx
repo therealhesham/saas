@@ -3,17 +3,23 @@ import { ArrowLeft, CirclePlay, Sparkles, Star } from "lucide-react";
 import { DashboardPreview } from "@/components/dashboard-preview";
 import { LaptopMockup } from "@/components/laptop-mockup";
 import { SiteHeader } from "@/components/site-header";
+import { prisma } from "@/lib/prisma";
 import { findScreenshot } from "@/lib/screenshots";
 
-const stats = [
-  { value: "6", label: "منتجات متكاملة" },
-  { value: "+12,000", label: "فريق يستخدم المنظومة" },
-  { value: "%99.9", label: "جاهزية الخدمة" },
-];
-
-export function HeroSection() {
+export async function HeroSection() {
   // حط صورتك في public/screenshots/hero.png وهتظهر تلقائياً مكان البديل
   const screenshot = findScreenshot("hero");
+
+  // العدد بيتحسب من الداتابيز عشان مايتعارضش مع المنتجات المعروضة تحت
+  const productCount = await prisma.product.count({
+    where: { published: true },
+  });
+
+  const stats = [
+    { value: String(productCount), label: "منتجات متكاملة" },
+    { value: "+12,000", label: "فريق يستخدم المنظومة" },
+    { value: "%99.9", label: "جاهزية الخدمة" },
+  ];
 
   return (
     <section className="relative overflow-hidden bg-ink">
@@ -26,10 +32,6 @@ export function HeroSection() {
       <SiteHeader />
 
       <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24 text-center sm:pt-28 sm:pb-32">
-        <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-medium text-brand-soft">
-          <Sparkles className="size-3.5" />
-          6 منتجات في منظومة واحدة — بحساب واحد وفاتورة واحدة
-        </span>
 
         <h1 className="mx-auto mt-8 max-w-3xl text-4xl font-bold leading-[1.25] text-white sm:text-5xl lg:text-6xl lg:leading-[1.2]">
           منظومة منتجات
