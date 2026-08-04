@@ -23,10 +23,13 @@ npm run dev
 
 ### قاعدة بيانات خارجية (الوضع المستهدف)
 
-بدّل `DATABASE_URL` في `.env` لرابط الاستضافة، وشغّل:
+بدّل `DATABASE_URL` في `.env` لرابط الاستضافة، اتأكد إن الاتصال شغال، وبعدين
+طبّق المايجريشنز:
 
 ```bash
-npm run db:deploy
+npm run db:check     # بيتأكد من الاتصال ويشخّص المشكلة لو فشل
+npm run db:deploy    # بيعمل الجداول
+npm run db:seed      # اختياري — بيدخل المنتجات الأساسية
 ```
 
 استخدم `db:deploy` **مش** `db:migrate` على قاعدة خارجية. السبب إن
@@ -86,6 +89,7 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 | الأمر | الوظيفة |
 |---|---|
+| `npm run db:check` | فحص الاتصال بقاعدة البيانات وتشخيص أسباب الفشل |
 | `npm run db:studio` | واجهة Prisma لتصفح البيانات |
 | `npm run db:seed` | إدخال المنتجات الأساسية (بـ upsert، آمن التكرار) |
 | `npm run db:deploy` | تطبيق المايجريشنز على قاعدة خارجية |
