@@ -1,7 +1,9 @@
+import Image from "next/image";
 import { ArrowLeft, CirclePlay, Sparkles, Star } from "lucide-react";
 import { DashboardPreview } from "@/components/dashboard-preview";
 import { LaptopMockup } from "@/components/laptop-mockup";
 import { SiteHeader } from "@/components/site-header";
+import { findScreenshot } from "@/lib/screenshots";
 
 const stats = [
   { value: "6", label: "منتجات متكاملة" },
@@ -10,6 +12,9 @@ const stats = [
 ];
 
 export function HeroSection() {
+  // حط صورتك في public/screenshots/hero.png وهتظهر تلقائياً مكان البديل
+  const screenshot = findScreenshot("hero");
+
   return (
     <section className="relative overflow-hidden bg-ink">
       {/* توهج خلفي خفيف */}
@@ -69,7 +74,18 @@ export function HeroSection() {
         {/* لاب توب يعرض لقطة من داخل المنتج */}
         <div className="mt-16 sm:mt-20">
           <LaptopMockup>
-            <DashboardPreview />
+            {screenshot ? (
+              <Image
+                src={screenshot}
+                alt="لقطة من داخل منصة روائس للاستقدام"
+                fill
+                priority
+                sizes="(max-width: 896px) 100vw, 896px"
+                className="object-cover object-right-top"
+              />
+            ) : (
+              <DashboardPreview />
+            )}
           </LaptopMockup>
         </div>
 
