@@ -6,20 +6,30 @@ import { SiteHeader } from "@/components/site-header";
 import { prisma } from "@/lib/prisma";
 import { findScreenshot } from "@/lib/screenshots";
 
+async function countPublishedProducts(): Promise<number | null> {
+  try {
+    return await prisma.product.count({ where: { published: true } });
+  } catch (error) {
+    console.warn("تعذّر حساب عدد المنتجات من قاعدة البيانات:", error);
+    return null;
+  }
+}
+
 export async function HeroSection() {
   // حط صورتك في public/screenshots/hero.png وهتظهر تلقائياً مكان البديل
   const screenshot = findScreenshot("hero");
 
-  // العدد بيتحسب من الداتابيز عشان مايتعارضش مع المنتجات المعروضة تحت
-  const productCount = await prisma.product.count({
-    where: { published: true },
-  });
+  // العدد بيتحسب من الداتابيز عشان مايتعارضش مع المنتجات المعروضة تحت.
+  // لو الداتابيز مش متاحة بنرجّع null ونخفي الرقم بدل ما الصفحة كلها تطلع 500.
+  const productCount = await countPublishedProducts();
 
   const stats = [
-    { value: String(productCount), label: "منتجات متكاملة" },
+    productCount === null
+      ? null
+      : { value: String(productCount), label: "منتجات متكاملة" },
     { value: "+12,000", label: "فريق يستخدم المنظومة" },
     { value: "%99.9", label: "جاهزية الخدمة" },
-  ];
+  ].filter((stat) => stat !== null);
 
   return (
     <section className="relative overflow-hidden bg-ink">
