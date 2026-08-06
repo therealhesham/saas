@@ -14,8 +14,15 @@ export function proxy(request: NextRequest) {
 
   const session = request.cookies.get(SESSION_COOKIE)?.value;
 
-  if (isValidSessionValue(session)) {
-    return NextResponse.next();
+  // isValidSessionValue بيرمي استثناء لو AUTH_SECRET ناقص أو أقصر من 16 حرف.
+  // من غير الـ try ده أي طلب على /admin كان بيرجّع 500 ("page couldn't load")
+  // بدل ما يوديك لصفحة الدخول — وده صعب تشخيصه على سيرفر.
+  try {
+    if (isValidSessionValue(session)) {
+      return NextResponse.next();
+    }
+  } catch (error) {
+    console.error("[proxy] فشل التحقق من الجلسة:", error);
   }
 
   const loginUrl = new URL("/admin/login", request.url);

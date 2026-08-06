@@ -84,10 +84,43 @@ export function isValidSessionValue(value: string | undefined): boolean {
   return Number(expiresAt) > Date.now();
 }
 
-export const sessionCookieOptions = {
-  httpOnly: true,
-  sameSite: "lax" as const,
-  secure: process.env.NODE_ENV === "production",
-  path: "/",
-  maxAge: SESSION_MAX_AGE_SECONDS,
-};
+/**
+ * خصائص كوكي الجلسة.
+ *
+ * `secure` بيتحدّد من بروتوكول الطلب الفعلي مش من NODE_ENV.
+ * السبب: لو حطّينا secure=true والموقع شغال على HTTP عادي، المتصفح بيرمي
+ * الكوكي أصلاً، فبعد تسجيل الدخول ترجع لصفحة الدخول تاني في دايرة مقفولة.
+ *
+ * لما تنقل الموقع لـ HTTPS الـ reverse proxy بيبعت x-forwarded-proto: https
+ * والكوكي بتترفّع لـ Secure تلقائياً من غير أي تعديل.
+ *
+ * تقدر تفرض القيمة يدوياً بمتغيّر البيئة COOKIE_SECURE=true أو false.
+ */
+export async function getSessionCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: "lax" as const,
+    secure: await isSecureRequest(),
+    path: "/",
+    maxAge: SESSION_MAX_AGE_SECONDS,
+  };
+}
+
+async function isSecureRequest(): Promise<boolean> {
+  const override = process.env.COOKIE_SECURE;
+
+  if (override === "true") return true;
+  if (override === "false") return false;
+
+  const { headers } = await import("next/headers");
+  const headerList = await headers();
+
+  // ممكن تيجي كسلسلة زي "https,http" لو عدّت على أكتر من proxy — الأول هو الأصلي
+  const forwardedProto = headerList.get("x-forwarded-proto");
+
+  if (forwardedProto) {
+    return forwardedProto.split(",")[0].trim().toLowerCase() === "https";
+  }
+
+  return false;
+}

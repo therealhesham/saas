@@ -16,12 +16,26 @@ if (!process.env.DATABASE_URL) {
 
 console.log(`بناء الصورة: ${tag}\n`);
 
+const allowedOrigins = process.env.ALLOWED_ORIGINS ?? "";
+
+if (!allowedOrigins) {
+  console.warn(
+    "⚠ ALLOWED_ORIGINS فاضي. لو الموقع وراء reverse proxy أو دومين مخصّص،\n" +
+      "  لوحة الأدمن هتطلّع \"This page couldn't load\" عند الحفظ.\n" +
+      '  حطه في .env كده: ALLOWED_ORIGINS="rawaes.com,www.rawaes.com"\n',
+  );
+} else {
+  console.log(`الدومينات المسموحة: ${allowedOrigins}\n`);
+}
+
 const result = spawnSync(
   "docker",
   [
     "build",
     "--secret",
     "id=database_url,env=DATABASE_URL",
+    "--build-arg",
+    `ALLOWED_ORIGINS=${allowedOrigins}`,
     "-t",
     tag,
     ".",

@@ -110,6 +110,28 @@ docker build -t rawaes-site .
 **لو الداتابيز وقعت وقت التشغيل** الصفحة بترجع 200 عادي، بس سكشن المنتجات
 وعدّادها بيتخفوا والخطأ بيتسجّل في اللوج — مش بتطلع صفحة 500.
 
+### مهم: `ALLOWED_ORIGINS` وراء reverse proxy
+
+لو لوحة الأدمن طلّعت **"This page couldn't load. A server error occurred."**
+فالسبب شبه المؤكد إن الدومين مش مضاف في `ALLOWED_ORIGINS`.
+
+Next بيعمل فحص CSRF على الـ Server Actions بيقارن هيدر `Origin` بالـ
+`x-forwarded-host` الجاي من الـ proxy. لو مختلفوا بيلغي الـ action ويطلّع
+الرسالة دي. الحل تحط دوميناتك في `.env`:
+
+```bash
+ALLOWED_ORIGINS="rawaes.com,www.rawaes.com"
+```
+
+> بيتقري وقت **البناء** مش وقت التشغيل — أي تغيير فيه محتاج إعادة بناء الصورة.
+> `npm run docker:build` بيمرّره تلقائياً وبيحذّرك لو فاضي.
+
+### الكوكي على HTTP
+
+كوكي الجلسة بتبقى `Secure` حسب بروتوكول الطلب الفعلي (`x-forwarded-proto`)
+مش حسب `NODE_ENV`. يعني بتشتغل على HTTP دلوقتي وبتترفّع لـ Secure أوتوماتيك
+لما تنقل لـ HTTPS من غير أي تعديل. تقدر تفرضها بـ `COOKIE_SECURE=true|false`.
+
 > البناء محتاج حوالي **2GB** مساحة فاضية. لو طلع `ENOSPC` شوف `df -h /`.
 
 ## أوامر مفيدة

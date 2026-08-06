@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import {
   SESSION_COOKIE,
   createSessionValue,
-  sessionCookieOptions,
+  getSessionCookieOptions,
   verifyPassword,
 } from "@/lib/auth";
 
@@ -28,7 +28,11 @@ export async function login(
   }
 
   const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE, createSessionValue(), sessionCookieOptions);
+  cookieStore.set(
+    SESSION_COOKIE,
+    createSessionValue(),
+    await getSessionCookieOptions(),
+  );
 
   // نقبل المسارات الداخلية بس، عشان مايتحوّلش لثغرة open redirect
   redirect(next.startsWith("/admin") ? next : "/admin");

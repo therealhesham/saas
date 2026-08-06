@@ -19,6 +19,12 @@ COPY . .
 
 RUN npx prisma generate
 
+# دومينات الموقع — لازم تتحدد وقت البناء عشان فحص CSRF بتاع Server Actions.
+# من غيرها الأدمن بيطلّع "This page couldn't load" وراء أي reverse proxy.
+# مثال: --build-arg ALLOWED_ORIGINS="rawaes.com,www.rawaes.com"
+ARG ALLOWED_ORIGINS=""
+ENV ALLOWED_ORIGINS=$ALLOWED_ORIGINS
+
 # استخدام DATABASE_URL كـ secret لو متاح أو رابط افتراضي لتفادي فشل البناء عند static generation
 RUN --mount=type=secret,id=database_url,required=false \
     SECRET_URL="$(cat /run/secrets/database_url 2>/dev/null || echo '')" && \
