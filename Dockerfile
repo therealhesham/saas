@@ -1,19 +1,15 @@
 # syntax=docker/dockerfile:1
 
 # ملاحظة: Next.js 16 محتاج Node 20.9 على الأقل.
-# openssl مطلوب لمحرّك Prisma على Alpine، و libc6-compat لبعض الحزم الأصلية.
 FROM node:22-alpine AS base
 RUN apk add --no-cache libc6-compat openssl
-
 
 # ---------- 1) الاعتماديات ----------
 FROM base AS deps
 WORKDIR /app
-COPY package.json package-lock.json ./
-# schema لازم يكون موجود لأن @prisma/client بيشغّل generate في postinstall
+COPY package.json package-lock.json* ./
 COPY prisma ./prisma
 RUN npm ci
-
 
 # ---------- 2) البناء ----------
 FROM base AS builder
@@ -21,39 +17,41 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# بيتولّد جوه الكونتينر عشان يطلع بمحرّك musl الصح بتاع Alpine
 RUN npx prisma generate
 
-# الصفحة الرئيسية بتتولّد وقت البناء، وبتقرأ المنتجات من الداتابيز لو الرابط متاح.
-# بنحاول نقرأ الـ secret كـ database_url لو اتمرّر، ولو مش متاح بنستخدم رابط وهمي لمنع فشل البناء.
+# استخدام DATABASE_URL كـ secret لو متاح أو رابط افتراضي لتفادي فشل البناء عند static generation
 RUN --mount=type=secret,id=database_url,required=false \
     SECRET_URL="$(cat /run/secrets/database_url 2>/dev/null || echo '')" && \
     export DATABASE_URL="${SECRET_URL:-mysql://dummy:dummy@127.0.0.1:3306/dummy}" && \
     npm run build
-
 
 # ---------- 3) التشغيل ----------
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-# بيوقّف تجميع بيانات الاستخدام اللي Next بيبعتها
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# مستخدم غير root — لو حصل اختراق ميبقاش معاه صلاحيات كاملة
-RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-# public لازم تتنسخ يدوي — سيرفر standalone مابيضمّهاش تلقائياً.
-# ومهمة هنا بالذات لأن lib/screenshots.ts بيقرأ public/screenshots وقت التشغيل.
+# تهيئة مجلد .next وإعطاء الصلاحيات للمستخدم
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# نسخ الملفات المطلوبة للتشغيل مع نسخ محرك Prisma ومجلداته لضمان عمله في standalone mode
 COPY --from=builder /app/public ./public
-
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
 
 USER nextjs
 
 EXPOSE 3000
 ENV PORT=3000
-ENV HOSTNAME=0.0.0.0
+ENV HOSTNAME="0.0.0.0"
 
 CMD ["node", "server.js"]
+
