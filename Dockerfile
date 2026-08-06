@@ -24,11 +24,11 @@ COPY . .
 # بيتولّد جوه الكونتينر عشان يطلع بمحرّك musl الصح بتاع Alpine
 RUN npx prisma generate
 
-# الصفحة الرئيسية بتتولّد وقت البناء وبتقرأ المنتجات من الداتابيز،
-# فالرابط لازم يكون متاح هنا. بنمرّره كـ secret مش ARG عشان ما يتسجّلش
-# في طبقات الصورة ولا في docker history.
-RUN --mount=type=secret,id=database_url \
-    DATABASE_URL="$(cat /run/secrets/database_url)" \
+# الصفحة الرئيسية بتتولّد وقت البناء، وبتقرأ المنتجات من الداتابيز لو الرابط متاح.
+# بنحاول نقرأ الـ secret كـ database_url لو اتمرّر، ولو مش متاح بنستخدم رابط وهمي لمنع فشل البناء.
+RUN --mount=type=secret,id=database_url,required=false \
+    SECRET_URL="$(cat /run/secrets/database_url 2>/dev/null || echo '')" && \
+    export DATABASE_URL="${SECRET_URL:-mysql://dummy:dummy@127.0.0.1:3306/dummy}" && \
     npm run build
 
 

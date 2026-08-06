@@ -3,10 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { resolveProductAccent, resolveProductIcon } from "@/lib/product-icons";
 
 export async function ProductsSection() {
-  const products = await prisma.product.findMany({
-    where: { published: true },
-    orderBy: [{ position: "asc" }, { id: "asc" }],
-  });
+  let products: Awaited<ReturnType<typeof prisma.product.findMany>> = [];
+  try {
+    products = await prisma.product.findMany({
+      where: { published: true },
+      orderBy: [{ position: "asc" }, { id: "asc" }],
+    });
+  } catch (error) {
+    console.warn("تعذّر جلب المنتجات من قاعدة البيانات أثناء توليد الصفحة:", error);
+  }
 
   // مفيش منتجات منشورة؟ نخفي السكشن كله بدل ما نسيب فراغ في الصفحة
   if (products.length === 0) {
