@@ -7,13 +7,16 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:up": "docker compose up -d",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:check": "node --env-file=.env scripts/check-db.mjs",
     "db:seed": "node prisma/seed.mjs",
     "db:studio": "prisma studio",
-    "admin:password": "node scripts/set-admin-password.mjs"
+    "admin:password": "node scripts/set-admin-password.mjs",
+    "docker:build": "node --env-file=.env scripts/docker-build.mjs",
+    "docker:run": "docker run --rm -d --name rawaes-site -p 3000:3000 --env-file .env -v \"$PWD/public/screenshots:/app/public/screenshots:ro\" rawaes-site",
+    "docker:logs": "docker logs -f rawaes-site",
+    "docker:stop": "docker stop rawaes-site"
   },
   "prisma": {
     "seed": "node prisma/seed.mjs"

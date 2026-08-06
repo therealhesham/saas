@@ -6,11 +6,11 @@
 ## التشغيل السريع
 
 ```bash
-cp .env.example .env       # وغيّر القيم
+cp .env.example .env       # وحط رابط قاعدة البيانات
 npm install
-npm run db:up              # كونتينر MySQL محلي (اختياري — شوف تحت)
-npm run db:migrate
-npm run db:seed
+npm run db:check           # يتأكد إن الاتصال شغال
+npm run db:deploy          # ينشئ الجداول
+npm run db:seed            # يدخّل المنتجات الأساسية
 npm run dev
 ```
 
@@ -50,15 +50,6 @@ npm run db:seed      # اختياري — بيدخل المنتجات الأسا
 > `next build` بيولّد الصفحة الرئيسية ساعة البناء، يعني لازم قاعدة البيانات
 > تكون شغالة ومتاحة وقت البناء مش وقت التشغيل بس.
 
-### الكونتينر المحلي
-
-`docker-compose.yml` موجود لتسهيل التطوير المحلي بس. لو شغّال على قاعدة
-خارجية مش محتاجه خالص — تجاهل `npm run db:up`.
-
-بيشتغل على بورت **3307** عشان مايتعارضش مع أي MySQL تاني على الجهاز، وبيعمل
-grant للصلاحية اللي Prisma محتاجاها للـ shadow database
-(`docker/mysql-init/01-shadow-db-grant.sql`).
-
 ## لوحة التحكم
 
 محمية بباسورد واحد. الجلسة كوكي `HttpOnly` موقّعة بـ HMAC، والحماية على
@@ -88,28 +79,35 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ## التشغيل بالدوكر
 
 ```bash
-docker compose up -d --build
+npm run docker:build     # يبني الصورة
+npm run docker:run       # يشغّلها على http://localhost:3000
+npm run docker:logs      # يتابع السجلات
+npm run docker:stop      # يوقّفها
 ```
 
-الموقع بيبقى على `http://localhost:3000`.
-
 الصورة multi-stage وبتستخدم `output: "standalone"`، يعني بتاخد بس الملفات
-المطلوبة للتشغيل مش `node_modules` كلها. بتشتغل بمستخدم `nextjs` مش root.
+المطلوبة للتشغيل مش `node_modules` كلها. وبتشتغل بمستخدم `nextjs` مش root.
 
-**الأسرار:** `DATABASE_URL` و `AUTH_SECRET` و `ADMIN_PASSWORD_HASH` بتتقري من
-`.env` وقت التشغيل عن طريق `env_file`، فمش متخبّية جوه الصورة. و `.dockerignore`
-بيمنع `.env` من دخول الـ build context أصلاً.
+**الأسرار وقت التشغيل:** `DATABASE_URL` و `AUTH_SECRET` و `ADMIN_PASSWORD_HASH`
+بتتمرّر بـ `--env-file .env`، فمش متخبّية جوه الصورة. و `.dockerignore` بيمنع
+`.env` من دخول الـ build context أصلاً.
 
-**ليه الداتابيز لازم تكون متاحة وقت البناء؟** الصفحة الرئيسية بتتولّد ساعة
-البناء وبتقرأ المنتجات، فالرابط بيتمرّر كـ **build secret** (مش `ARG`) عشان
-ما يتسجّلش في طبقات الصورة ولا في `docker history`. كومبوز بيقرا `DATABASE_URL`
-من `.env` تلقائياً.
+**الأسرار وقت البناء:** الصفحة الرئيسية بتتولّد ساعة البناء وبتقرأ المنتجات،
+فالداتابيز لازم تكون متاحة وقتها. `scripts/docker-build.mjs` بيمرّر الرابط كـ
+**build secret** (`--secret`) مش `ARG`، فمابيتسجّلش في طبقات الصورة ولا في
+`docker history` — ده متأكد منه بالفحص.
 
 **تضيف سكرين شوت من غير إعادة بناء:** مجلد `public/screenshots` متعمله mount
-كـ volume، فتحط الصورة وتعمل `docker compose restart app` وخلاص.
+كـ volume، فتحط الصورة وتعمل `npm run docker:stop && npm run docker:run`.
 
-**MySQL محلي** (لو احتجته للتطوير): `docker compose --profile local-db up -d mysql`
-— مابيشتغلش افتراضياً لأن المشروع على داتابيز خارجية.
+**لو حبيت تبني يدوي** من غير السكربت:
+
+```bash
+docker build --secret id=database_url,env=DATABASE_URL -t rawaes-site .
+```
+(لازم `DATABASE_URL` يكون متصدّر في الشِل)
+
+> البناء محتاج حوالي **2GB** مساحة فاضية. لو طلع `ENOSPC` شوف `df -h /`.
 
 ## أوامر مفيدة
 
