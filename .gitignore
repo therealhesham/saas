@@ -32,6 +32,8 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# القالب لازم يتعمله commit عشان يعرف الناس المتغيرات المطلوبة — من غير أي أسرار
+!.env.example
 
 # vercel
 .vercel

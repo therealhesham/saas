@@ -1,5 +1,24 @@
 services:
+  app:
+    build:
+      context: .
+      secrets:
+        - database_url
+    image: rawaes-site
+    container_name: rawaes-site-app
+    restart: unless-stopped
+    # الأسرار بتتقري وقت التشغيل من .env مش متخبّية جوه الصورة
+    env_file: .env
+    ports:
+      - "3000:3000"
+    volumes:
+      # تقدر تضيف/تغيّر سكرين شوت اللاب توب من غير ما تعيد بناء الصورة
+      - ./public/screenshots:/app/public/screenshots:ro
+
+  # MySQL محلي للتطوير بس — مابيشتغلش افتراضياً لأن المشروع على داتابيز خارجية.
+  # لو احتجته: docker compose --profile local-db up -d mysql
   mysql:
+    profiles: ["local-db"]
     image: mysql:8.0
     container_name: rawaes-site-mysql
     restart: unless-stopped
@@ -20,6 +39,13 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+
+# الصفحة الرئيسية بتتولّد وقت البناء وبتقرأ من الداتابيز، فالرابط لازم يتمرّر
+# للبناء. بيتمرّر كـ secret مش ARG عشان ما يتسجّلش في طبقات الصورة.
+# كومبوز بيقرأ DATABASE_URL من ملف .env تلقائياً.
+secrets:
+  database_url:
+    environment: DATABASE_URL
 
 volumes:
   rawaes-site-db:
