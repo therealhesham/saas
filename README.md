@@ -85,6 +85,32 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 تلقائياً من غير تعديل كود. لو الملف مش موجود بتتعرض واجهة بديلة مرسومة
 بالـ HTML. التفاصيل في `public/screenshots/README.md`.
 
+## التشغيل بالدوكر
+
+```bash
+docker compose up -d --build
+```
+
+الموقع بيبقى على `http://localhost:3000`.
+
+الصورة multi-stage وبتستخدم `output: "standalone"`، يعني بتاخد بس الملفات
+المطلوبة للتشغيل مش `node_modules` كلها. بتشتغل بمستخدم `nextjs` مش root.
+
+**الأسرار:** `DATABASE_URL` و `AUTH_SECRET` و `ADMIN_PASSWORD_HASH` بتتقري من
+`.env` وقت التشغيل عن طريق `env_file`، فمش متخبّية جوه الصورة. و `.dockerignore`
+بيمنع `.env` من دخول الـ build context أصلاً.
+
+**ليه الداتابيز لازم تكون متاحة وقت البناء؟** الصفحة الرئيسية بتتولّد ساعة
+البناء وبتقرأ المنتجات، فالرابط بيتمرّر كـ **build secret** (مش `ARG`) عشان
+ما يتسجّلش في طبقات الصورة ولا في `docker history`. كومبوز بيقرا `DATABASE_URL`
+من `.env` تلقائياً.
+
+**تضيف سكرين شوت من غير إعادة بناء:** مجلد `public/screenshots` متعمله mount
+كـ volume، فتحط الصورة وتعمل `docker compose restart app` وخلاص.
+
+**MySQL محلي** (لو احتجته للتطوير): `docker compose --profile local-db up -d mysql`
+— مابيشتغلش افتراضياً لأن المشروع على داتابيز خارجية.
+
 ## أوامر مفيدة
 
 | الأمر | الوظيفة |
