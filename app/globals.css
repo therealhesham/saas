@@ -4,13 +4,13 @@
   --background: #ffffff;
   --foreground: #0f172a;
 
-  /* لون السكشن الغامق (الأول والأخير) */
-  --ink: #0a0f1c;
-  --ink-soft: #121a2c;
-  --ink-line: #1e293b;
+  /* النمط الفاتح العادي والمريح */
+  --ink: #f8fafc;
+  --ink-soft: #ffffff;
+  --ink-line: #e2e8f0;
 
-  --brand: #6366f1;
-  --brand-soft: #a5b4fc;
+  --brand: #4f46e5;
+  --brand-soft: #6366f1;
 }
 
 @theme inline {

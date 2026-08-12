@@ -32,23 +32,23 @@ export async function HeroSection() {
   ].filter((stat) => stat !== null);
 
   return (
-    <section className="relative overflow-hidden bg-ink">
+    <section className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/60">
       {/* توهج خلفي خفيف */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/2 size-[46rem] -translate-x-1/2 rounded-full bg-brand/20 blur-[140px]"
+        className="pointer-events-none absolute -top-40 left-1/2 size-[46rem] -translate-x-1/2 rounded-full bg-brand/10 blur-[130px]"
       />
 
       <SiteHeader />
 
       <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24 text-center sm:pt-28 sm:pb-32">
 
-        <h1 className="mx-auto mt-8 max-w-3xl text-4xl font-bold leading-[1.25] text-white sm:text-5xl lg:text-6xl lg:leading-[1.2]">
+        <h1 className="mx-auto mt-8 max-w-3xl text-4xl font-bold leading-[1.25] text-slate-900 sm:text-5xl lg:text-6xl lg:leading-[1.2]">
           منظومة منتجات
-          <span className="text-brand-soft"> تدير أعمالك بالكامل</span>
+          <span className="text-brand"> تدير أعمالك بالكامل</span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
           من إدارة العملاء والمبيعات، للتحليلات والأتمتة والدعم والفوترة
           والموارد البشرية — منتجات مستقلة تشتغل مع بعضها على نفس البيانات.
           ابدأ بمنتج واحد وأضف الباقي وقت ما تحتاج.
@@ -57,21 +57,21 @@ export async function HeroSection() {
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
             href="#signup"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/25 transition-colors hover:bg-indigo-500 sm:w-auto"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/20 transition-colors hover:bg-indigo-700 sm:w-auto"
           >
             ابدأ تجربتك المجانية
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
           </a>
           <a
             href="#demo"
-            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:w-auto"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900 sm:w-auto"
           >
-            <CirclePlay className="size-4" />
+            <CirclePlay className="size-4 text-brand" />
             شاهد العرض التوضيحي
           </a>
         </div>
 
-        <p className="mt-5 flex items-center justify-center gap-2 text-xs text-slate-500">
+        <p className="mt-5 flex items-center justify-center gap-2 text-xs font-medium text-slate-500">
           <span className="flex gap-0.5">
             {Array.from({ length: 5 }, (_, index) => (
               <Star
@@ -101,11 +101,11 @@ export async function HeroSection() {
           </LaptopMockup>
         </div>
 
-        <dl className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-ink-line bg-ink-line sm:grid-cols-3">
+        <dl className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-200/80 shadow-sm sm:grid-cols-3">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-ink-soft px-6 py-8">
-              <dt className="text-3xl font-bold text-white">{stat.value}</dt>
-              <dd className="mt-2 text-sm text-slate-400">{stat.label}</dd>
+            <div key={stat.label} className="bg-white px-6 py-8">
+              <dt className="text-3xl font-bold text-slate-900">{stat.value}</dt>
+              <dd className="mt-2 text-sm font-medium text-slate-500">{stat.label}</dd>
             </div>
           ))}
         </dl>

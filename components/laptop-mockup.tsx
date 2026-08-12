@@ -12,13 +12,13 @@ export function LaptopMockup({ children }: LaptopMockupProps) {
   return (
     <div className="mx-auto w-full max-w-4xl">
       {/* غطاء اللاب توب والشاشة */}
-      <div className="rounded-t-2xl border border-white/10 bg-gradient-to-b from-[#252d40] to-[#161d2b] p-2.5 shadow-2xl shadow-black/50 sm:p-3">
+      <div className="rounded-t-2xl border border-slate-300/80 bg-gradient-to-b from-slate-800 to-slate-950 p-2.5 shadow-2xl shadow-indigo-900/15 sm:p-3">
         {/* كاميرا */}
         <div className="mx-auto mb-2 flex items-center justify-center">
           <span className="size-1.5 rounded-full bg-white/20 ring-2 ring-black/40" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-ink ring-1 ring-white/10">
+        <div className="relative aspect-[16/10] overflow-hidden rounded-lg bg-white ring-1 ring-slate-900/10">
           {children}
           {/* انعكاس ضوئي خفيف على الشاشة */}
           <div
@@ -30,7 +30,7 @@ export function LaptopMockup({ children }: LaptopMockupProps) {
 
       {/* قاعدة اللاب توب — هوامش سالبة متساوية عشان تفضل متمركزة */}
       <div className="relative -mx-[4%]">
-        <div className="h-3.5 rounded-b-xl bg-gradient-to-b from-[#2b3346] to-[#12161f] shadow-lg shadow-black/40 sm:h-4" />
+        <div className="h-3.5 rounded-b-xl bg-gradient-to-b from-slate-700 to-slate-900 shadow-lg shadow-slate-900/20 sm:h-4" />
         {/* فتحة فتح الغطاء */}
         <div
           aria-hidden
@@ -41,7 +41,7 @@ export function LaptopMockup({ children }: LaptopMockupProps) {
       {/* ظل تحت الجهاز */}
       <div
         aria-hidden
-        className="mx-auto h-8 w-[80%] rounded-[100%] bg-black/40 blur-2xl"
+        className="mx-auto h-8 w-[80%] rounded-[100%] bg-slate-900/20 blur-2xl"
       />
     </div>
   );
