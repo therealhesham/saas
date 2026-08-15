@@ -29,3 +29,32 @@ model Product {
 
   @@index([published, position])
 }
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  /// معرّف نصّي فريد في الرابط
+  slug        String   @unique @db.VarChar(80)
+  title       String   @db.VarChar(120)
+  summary     String   @db.VarChar(255)
+  description String   @db.Text
+  category    String   @default("عام") @db.VarChar(60)
+  /// رابط الصورة المرفوعة في Digital Ocean Spaces
+  imageUrl    String   @db.Text
+  /// رابط المشروع الحي
+  projectUrl  String?  @db.VarChar(255)
+  /// رابط مستودع GitHub
+  githubUrl   String?  @db.VarChar(255)
+  /// التقنيات المستعملة كـ JSON Array
+  technologies Json
+  /// ترتيب العرض في الصفحة
+  position    Int      @default(0)
+  /// حالة النشر
+  published   Boolean  @default(true)
+  /// مميز أو بارز في الصفحة الرئيسية
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([published, position])
+}
+

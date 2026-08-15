@@ -4,10 +4,11 @@ import { useState } from "react";
 import { Hexagon, Menu, X } from "lucide-react";
 
 const navLinks = [
-  { label: "المنتجات", href: "#products" },
-  { label: "الحلول", href: "#solutions" },
-  { label: "الأسعار", href: "#pricing" },
-  { label: "الشركاء", href: "#partners" },
+  { label: "المنتجات", href: "/#products" },
+  { label: "مشاريعنا", href: "/projects" },
+  { label: "الحلول", href: "/#solutions" },
+  { label: "الأسعار", href: "/#pricing" },
+  { label: "الشركاء", href: "/#partners" },
 ];
 
 export function SiteHeader() {
