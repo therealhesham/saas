@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
-import { ProjectsView } from "@/app/projects/projects-view";
+import { ProjectsView, PublicProject } from "@/app/projects/projects-view";
 import { prisma } from "@/lib/prisma";
-import { Sparkles, ArrowLeft, Rocket } from "lucide-react";
+import { ArrowLeft, Rocket } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "مشاريعنا — روائس",
@@ -10,92 +10,129 @@ export const metadata: Metadata = {
     "استكشف معرض الأعمال والمشاريع الرقمية المتميزة التي قمنا بتطويرها باستخدام أحدث التقنيات السحابية.",
 };
 
-export const revalidate = 60; // SSR with incremental revalidation every 60s
+export const dynamic = "force-dynamic";
 
-async function getProjects() {
-  let projects = await prisma.project.findMany({
-    where: { published: true },
-    orderBy: [{ position: "asc" }, { id: "asc" }],
-  });
+const sampleProjects: PublicProject[] = [
+  {
+    id: 1,
+    slug: "enterprise-saas-dashboard",
+    title: "لوحة تحكم روائس السحابية",
+    summary: "منصة إدارة البيانات والتحليلات الفورية للشركات والمؤسسات",
+    description:
+      "نظام متكامل لإدارة الأعمال يوفر لوحات قيادة مخصصة للتحليلات المباشرة، مع دعم الأمان العالي، التزامن الفوري، وتكامل التخزين السحابي على DigitalOcean Spaces.",
+    category: "منصات SaaS",
+    imageUrl:
+      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    projectUrl: "https://rawaes.com",
+    githubUrl: null,
+    technologies: ["Next.js", "React 19", "TailwindCSS", "Prisma", "MySQL"],
+    featured: true,
+  },
+  {
+    id: 2,
+    slug: "e-commerce-ai-platform",
+    title: "متجر الذكاء الاصطناعي التجاري",
+    summary: "منصة تجارة إلكترونية ذكية تتيح توصية المنتجات المخصصة للمستخدمين",
+    description:
+      "تطبيق تجاري متطور يعتمد على تقنيات التعلم الآلي لاقتراح المنتجات وتسهيل عمليات الشراء، مع بوابة دفع إلكترونية سريعة وتصميم تجاوبي يخدم كافة الأجهزة.",
+    category: "تطبيقات ويب",
+    imageUrl:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
+    projectUrl: "https://rawaes.com",
+    githubUrl: "https://github.com",
+    technologies: ["Next.js", "TypeScript", "DigitalOcean Spaces", "Stripe"],
+    featured: false,
+  },
+  {
+    id: 3,
+    slug: "cloud-asset-manager",
+    title: "نظام إدارة الأصول الرقمية CloudSpace",
+    summary: "تطبيق سحابي لرفع وإدارة الصور والملفات الضخمة بسرعة فائقة",
+    description:
+      "حل سحابي مخصص لرفع ومعالجة الصور وتخزينها على DigitalOcean Spaces مباشرة مع توليد روابط CDN سريعة وتوزيع أحمال آمن.",
+    category: "حلول سحابية",
+    imageUrl:
+      "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80",
+    projectUrl: "https://rawaes.com",
+    githubUrl: null,
+    technologies: ["Node.js", "S3 SDK", "DigitalOcean", "Redis"],
+    featured: true,
+  },
+];
 
-  // إذا كانت الداتابيز فارغة، نضيف نماذج أولية ممتازة للعرض الفوري
-  if (projects.length === 0) {
-    const sampleProjects = [
-      {
-        slug: "enterprise-saas-dashboard",
-        title: "لوحة تحكم روائس السحابية",
-        summary: "منصة إدارة البيانات والتحليلات الفورية للشركات والمؤسسات",
-        description:
-          "نظام متكامل لإدارة الأعمال يوفر لوحات قيادة مخصصة للتحليلات المباشرة، مع دعم الأمان العالي، التزامن الفوري، وتكامل التخزين السحابي على DigitalOcean Spaces.",
-        category: "منصات SaaS",
-        imageUrl:
-          "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-        projectUrl: "https://rawaes.com",
-        githubUrl: null,
-        technologies: ["Next.js", "React 19", "TailwindCSS", "Prisma", "MySQL"],
-        position: 1,
-        published: true,
-        featured: true,
-      },
-      {
-        slug: "e-commerce-ai-platform",
-        title: "متجر الذكاء الاصطناعي التجاري",
-        summary: "منصة تجارة إلكترونية ذكية تتيح توصية المنتجات المخصصة للمستخدمين",
-        description:
-          "تطبيق تجاري متطور يعتمد على تقنيات التعلم الآلي لاقتراح المنتجات وتسهيل عمليات الشراء، مع بوابة دفع إلكترونية سريعة وتصميم تجاوبي يخدم كافة الأجهزة.",
-        category: "تطبيقات ويب",
-        imageUrl:
-          "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-        projectUrl: "https://rawaes.com",
-        githubUrl: "https://github.com",
-        technologies: ["Next.js", "TypeScript", "DigitalOcean Spaces", "Stripe"],
-        position: 2,
-        published: true,
-        featured: false,
-      },
-      {
-        slug: "cloud-asset-manager",
-        title: "نظام إدارة الأصول الرقمية CloudSpace",
-        summary: "تطبيق سحابي لرفع وإدارة الصور والملفات الضخمة بسرعة فائقة",
-        description:
-          "حل سحابي مخصص لرفع ومعالجة الصور وتخزينها على DigitalOcean Spaces مباشرة مع توليد روابط CDN سريعة وتوزيع أحمال آمن.",
-        category: "حلول سحابية",
-        imageUrl:
-          "https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=1200&q=80",
-        projectUrl: "https://rawaes.com",
-        githubUrl: null,
-        technologies: ["Node.js", "S3 SDK", "DigitalOcean", "Redis"],
-        position: 3,
-        published: true,
-        featured: true,
-      },
-    ];
-
-    for (const p of sampleProjects) {
-      await prisma.project.create({ data: p });
-    }
-
-    projects = await prisma.project.findMany({
+async function getProjects(): Promise<PublicProject[]> {
+  try {
+    const projects = await prisma.project.findMany({
       where: { published: true },
       orderBy: [{ position: "asc" }, { id: "asc" }],
     });
-  }
 
-  return projects.map((p) => ({
-    id: p.id,
-    slug: p.slug,
-    title: p.title,
-    summary: p.summary,
-    description: p.description,
-    category: p.category,
-    imageUrl: p.imageUrl,
-    projectUrl: p.projectUrl,
-    githubUrl: p.githubUrl,
-    technologies: Array.isArray(p.technologies)
-      ? p.technologies.map(String)
-      : [],
-    featured: p.featured,
-  }));
+    if (projects.length === 0) {
+      // محاولة إضافة البيانات النموذجية لو قاعدة البيانات شغالة وفارغة
+      try {
+        for (const p of sampleProjects) {
+          await prisma.project.create({
+            data: {
+              slug: p.slug,
+              title: p.title,
+              summary: p.summary,
+              description: p.description,
+              category: p.category,
+              imageUrl: p.imageUrl,
+              projectUrl: p.projectUrl,
+              githubUrl: p.githubUrl,
+              technologies: p.technologies,
+              featured: p.featured,
+              published: true,
+            },
+          });
+        }
+        const created = await prisma.project.findMany({
+          where: { published: true },
+          orderBy: [{ position: "asc" }, { id: "asc" }],
+        });
+        if (created.length > 0) {
+          return created.map((p) => ({
+            id: p.id,
+            slug: p.slug,
+            title: p.title,
+            summary: p.summary,
+            description: p.description,
+            category: p.category,
+            imageUrl: p.imageUrl,
+            projectUrl: p.projectUrl,
+            githubUrl: p.githubUrl,
+            technologies: Array.isArray(p.technologies)
+              ? p.technologies.map(String)
+              : [],
+            featured: p.featured,
+          }));
+        }
+      } catch {
+        // لو تعذّرت الإضافة، نرجع البيانات العادية في الذاكرة
+      }
+      return sampleProjects;
+    }
+
+    return projects.map((p) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      summary: p.summary,
+      description: p.description,
+      category: p.category,
+      imageUrl: p.imageUrl,
+      projectUrl: p.projectUrl,
+      githubUrl: p.githubUrl,
+      technologies: Array.isArray(p.technologies)
+        ? p.technologies.map(String)
+        : [],
+      featured: p.featured,
+    }));
+  } catch (error) {
+    console.warn("تعذّر الاتصال بقاعدة البيانات أثناء جلب المشاريع، سيتم استخدام البيانات الافتراضية:", error);
+    return sampleProjects;
+  }
 }
 
 export default async function ProjectsPage() {
@@ -111,7 +148,6 @@ export default async function ProjectsPage() {
 
         <div className="relative mx-auto max-w-6xl px-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-xs font-bold text-brand mb-6 shadow-xs">
-            {/* <Sparkles className="size-3.5" /> */}
             معرض الأعمال الرقمية
           </div>
 
