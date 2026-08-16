@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Hexagon } from "lucide-react";
+import { RawaesLogo } from "@/components/rawaes-logo";
 import { LoginForm } from "@/app/admin/login/login-form";
 
 export const metadata: Metadata = {
@@ -19,11 +19,8 @@ export default async function AdminLoginPage({
     <main className="flex flex-1 items-center justify-center bg-slate-50 px-6 py-20">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex flex-col items-center gap-3 text-center">
-          <Hexagon
-            className="size-9 fill-brand/10 text-brand"
-            strokeWidth={1.5}
-          />
-          <h1 className="text-xl font-bold text-slate-900">لوحة تحكم روائس</h1>
+          <RawaesLogo variant="full" className="h-12" />
+          <h1 className="text-xl font-bold text-slate-900 mt-2">لوحة تحكم روائس</h1>
           <p className="text-sm text-slate-500">
             سجّل دخولك عشان تقدر تدير المنتجات
           </p>

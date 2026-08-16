@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" fill="none">
+  <defs>
+    <linearGradient id="gold-grad-icon" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#B8862B" />
+      <stop offset="50%" stop-color="#D4A24A" />
+      <stop offset="100%" stop-color="#E8BE70" />
+    </linearGradient>
+  </defs>
+
+  <!-- 4 Navy Square Pixels -->
+  <rect x="24" y="100" width="10" height="10" rx="1.5" fill="#0D1B3D" />
+  <rect x="24" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
+  <rect x="39" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
+  <rect x="54" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
+
+  <!-- Gold Swoosh -->
+  <path d="M 50 128 C 45 110, 52 90, 72 75 C 84 66, 96 62, 108 62 C 104 74, 95 82, 84 87 C 70 94, 62 108, 62 128 Z" fill="url(#gold-grad-icon)" />
+
+  <!-- Navy R Mark -->
+  <path d="M 28 44 C 28 32, 40 24, 68 24 L 105 24 C 132 24, 146 38, 146 58 C 146 76, 134 88, 114 93 L 148 138 C 151 142, 148 146, 142 146 L 122 146 C 117 146, 113 143, 109 137 L 82 98 L 68 98 C 62 98, 56 102, 56 108 L 56 128 C 56 138, 44 142, 38 134 C 30 123, 28 100, 28 88 L 28 44 Z M 68 44 L 68 76 L 98 76 C 112 76, 120 69, 120 60 C 120 50, 112 44, 98 44 Z" fill="#0D1B3D" fill-rule="evenodd" />
+</svg>

@@ -1,5 +1,6 @@
-import { ArrowLeft, Check, Hexagon, Mail } from "lucide-react";
+import { ArrowLeft, Check, Mail } from "lucide-react";
 import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import { RawaesLogo } from "@/components/rawaes-logo";
 
 const perks = [
   "14 يوم تجربة لكل المنتجات",
@@ -66,13 +67,9 @@ export function CtaSection() {
         </div>
 
         <footer className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-slate-200 pt-8 sm:flex-row">
-          <div className="flex items-center gap-2 text-slate-900">
-            <Hexagon
-              className="size-6 fill-brand/10 text-brand"
-              strokeWidth={1.5}
-            />
-            <span className="font-bold">روائس</span>
-          </div>
+          <a href="/" className="transition-opacity hover:opacity-90">
+            <RawaesLogo variant="full" className="h-8" />
+          </a>
 
           <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-slate-600">
             {footerLinks.map((link) => (

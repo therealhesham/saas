@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Hexagon, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { RawaesLogo } from "@/components/rawaes-logo";
 
 const navLinks = [
-  { label: "المنتجات", href: "/#products" },
-  { label: "مشاريعنا", href: "/projects" },
+  { label: "المشاريع", href: "/#projects" },
+  { label: "معرض الأعمال", href: "/projects" },
   { label: "الحلول", href: "/#solutions" },
   { label: "الأسعار", href: "/#pricing" },
   { label: "الشركاء", href: "/#partners" },
@@ -15,14 +16,10 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="relative z-20 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-5">
-        <a href="#" className="flex items-center gap-2 text-slate-900">
-          <Hexagon
-            className="size-7 fill-brand/10 text-brand"
-            strokeWidth={1.5}
-          />
-          <span className="text-lg font-bold tracking-tight">روائس</span>
+    <header className="relative z-20 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
+        <a href="/" className="flex items-center gap-2 text-slate-900 transition-opacity hover:opacity-90">
+          <RawaesLogo variant="horizontal" className="h-10" />
         </a>
 
         <ul className="hidden items-center gap-8 text-sm font-medium text-slate-600 md:flex">

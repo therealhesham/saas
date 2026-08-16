@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { ExternalLink, Hexagon, LogOut } from "lucide-react";
+import { ExternalLink, LogOut } from "lucide-react";
+import { RawaesLogo } from "@/components/rawaes-logo";
 import { logout } from "@/app/admin/auth-actions";
 import { AdminTabs } from "@/app/admin/admin-tabs";
 import { prisma } from "@/lib/prisma";
@@ -53,9 +54,9 @@ export default async function AdminPage() {
     <main className="min-h-screen flex-1 bg-slate-50">
       <header className="border-b border-slate-200 bg-white sticky top-0 z-10">
         <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
-          <div className="flex items-center gap-2">
-            <Hexagon className="size-6 text-brand" strokeWidth={1.5} />
-            <span className="font-bold text-slate-900">لوحة تحكم روائس</span>
+          <div className="flex items-center gap-3">
+            <RawaesLogo variant="horizontal" className="h-8" />
+            <span className="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">لوحة التحكم</span>
           </div>
 
           <div className="flex items-center gap-2">

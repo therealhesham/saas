@@ -6,11 +6,11 @@ import { SiteHeader } from "@/components/site-header";
 import { prisma } from "@/lib/prisma";
 import { findScreenshot } from "@/lib/screenshots";
 
-async function countPublishedProducts(): Promise<number | null> {
+async function countPublishedProjects(): Promise<number | null> {
   try {
-    return await prisma.product.count({ where: { published: true } });
+    return await prisma.project.count({ where: { published: true } });
   } catch (error) {
-    console.warn("تعذّر حساب عدد المنتجات من قاعدة البيانات:", error);
+    console.warn("تعذّر حساب عدد المشاريع من قاعدة البيانات:", error);
     return null;
   }
 }
@@ -19,16 +19,14 @@ export async function HeroSection() {
   // حط صورتك في public/screenshots/hero.png وهتظهر تلقائياً مكان البديل
   const screenshot = findScreenshot("hero");
 
-  // العدد بيتحسب من الداتابيز عشان مايتعارضش مع المنتجات المعروضة تحت.
-  // لو الداتابيز مش متاحة بنرجّع null ونخفي الرقم بدل ما الصفحة كلها تطلع 500.
-  const productCount = await countPublishedProducts();
+  const projectCount = await countPublishedProjects();
 
   const stats = [
-    productCount === null
+    projectCount === null
       ? null
-      : { value: String(productCount), label: "منتجات متكاملة" },
-    { value: "+12,000", label: "فريق يستخدم المنظومة" },
-    { value: "%99.9", label: "جاهزية الخدمة" },
+      : { value: String(projectCount), label: "مشروع رقمي منجز" },
+    { value: "+12,000", label: "مستخدم يتصفح أعمالنا" },
+    { value: "%99.9", label: "جاهزية وسرعة الأداء" },
   ].filter((stat) => stat !== null);
 
   return (
@@ -44,14 +42,13 @@ export async function HeroSection() {
       <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24 text-center sm:pt-28 sm:pb-32">
 
         <h1 className="mx-auto mt-8 max-w-3xl text-4xl font-bold leading-[1.25] text-slate-900 sm:text-5xl lg:text-6xl lg:leading-[1.2]">
-          منظومة منتجات
-          <span className="text-brand"> تدير أعمالك بالكامل</span>
+          مشاريع سحابية وحلول رقمية
+          <span className="text-brand"> تبهر عملاءك</span>
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
-          من إدارة العملاء والمبيعات، للتحليلات والأتمتة والدعم والفوترة
-          والموارد البشرية — منتجات مستقلة تشتغل مع بعضها على نفس البيانات.
-          ابدأ بمنتج واحد وأضف الباقي وقت ما تحتاج.
+          استكشف حلولنا البرمجية المبتكرة ومشاريعنا الرقمية المتطورة.
+          نصمم ونبني تطبيقات ويب وسحابية فائقة السرعة تلبّي كافة تطلعاتك.
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">

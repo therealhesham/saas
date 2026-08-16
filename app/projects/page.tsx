@@ -111,7 +111,7 @@ export default async function ProjectsPage() {
 
         <div className="relative mx-auto max-w-6xl px-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-xs font-bold text-brand mb-6 shadow-xs">
-            <Sparkles className="size-3.5" />
+            {/* <Sparkles className="size-3.5" /> */}
             معرض الأعمال الرقمية
           </div>
 
