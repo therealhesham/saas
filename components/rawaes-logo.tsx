@@ -105,16 +105,9 @@ export function RawaesLogo({
         {/* RAWAES header text strictly LTR */}
         <div className="flex items-center text-[#0D1B3D] font-extrabold tracking-wider text-xl leading-none" dir="ltr">
           <span>R</span>
-          {/* A with Gold Triangle Apex */}
-          <span className="relative inline-flex items-center justify-center px-0.5">
-            A
-            <span
-              className="absolute top-[-1px] size-0 border-x-[3.5px] border-x-transparent border-b-[5px] border-b-[#D4A24A]"
-              style={{ clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" }}
-            />
-          </span>
+          <span>A</span>
           <span>W</span>
-          {/* A with Gold Triangle Apex */}
+          {/* Second A with Gold Triangle Apex */}
           <span className="relative inline-flex items-center justify-center px-0.5">
             A
             <span
@@ -129,7 +122,7 @@ export function RawaesLogo({
         {/* Arabic Subtitle */}
         <div className="mt-1 flex items-center gap-1 text-[11px] font-bold text-[#0D1B3D] tracking-tight" dir="rtl">
           <span className="h-[1px] w-2.5 bg-[#D4A24A]" />
-          <span>رؤانس للحلول البرمجية</span>
+          <span>روائس للحلول البرمجية</span>
           <span className="h-[1px] w-2.5 bg-[#D4A24A]" />
         </div>
 

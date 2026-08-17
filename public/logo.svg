@@ -30,13 +30,12 @@
     <!-- RAWAES Main Text -->
     <text x="0" y="62" font-family="'Cairo', 'Segoe UI', sans-serif" font-weight="900" font-size="46" fill="#0D1B3D" letter-spacing="4">RAWAES</text>
 
-    <!-- Gold triangle accent over A (letter 2 and letter 4) -->
-    <polygon points="61,26 66,34 56,34" fill="#D4A24A" />
+    <!-- Gold triangle accent over second A -->
     <polygon points="135,26 140,34 130,34" fill="#D4A24A" />
 
     <!-- Arabic Subtitle with Gold Lines -->
     <line x1="0" y1="84" x2="24" y2="84" stroke="#D4A24A" stroke-width="2" stroke-linecap="round" />
-    <text x="32" y="89" font-family="'Cairo', sans-serif" font-weight="700" font-size="16" fill="#0D1B3D">رؤانس للحلول البرمجية</text>
+    <text x="32" y="89" font-family="'Cairo', sans-serif" font-weight="700" font-size="16" fill="#0D1B3D">روائس للحلول البرمجية</text>
     <line x1="194" y1="84" x2="218" y2="84" stroke="#D4A24A" stroke-width="2" stroke-linecap="round" />
 
     <!-- English Subtitle -->
