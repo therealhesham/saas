@@ -7,7 +7,7 @@ import { RawaesLogo } from "@/components/rawaes-logo";
 const navLinks = [
   { label: "المشاريع", href: "/#projects" },
   { label: "معرض الأعمال", href: "/projects" },
-  { label: "الحلول", href: "/#solutions" },
+  { label: "الحلول", href: "/solutions" },
   { label: "الأسعار", href: "/#pricing" },
   { label: "الشركاء", href: "/#partners" },
 ];
