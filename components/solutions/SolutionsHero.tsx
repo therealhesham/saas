@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowLeft, Sparkles } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export function SolutionsHero() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -23,90 +23,57 @@ export function SolutionsHero() {
   return (
     <section
       dir="rtl"
-      className="relative overflow-hidden bg-[#080e24] py-24 sm:py-36"
+      className="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-slate-50/60 py-24 sm:py-36"
     >
-      {/* شبكة نقاط خلفية */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "36px 36px",
-        }}
-      />
-
-      {/* كرات التوهج */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-32 -right-32 size-[480px] rounded-full bg-indigo-600/20 blur-[100px]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-20 -left-20 size-[360px] rounded-full bg-[#B8862B]/15 blur-[90px]"
-      />
-
-      {/* دائرة تتبع الماوس */}
+      {/* توهج خلفي خفيف مطابق للرئيسية */}
       <div
         ref={dotRef}
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-1/2 size-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/10 blur-3xl transition-transform duration-500"
+        className="pointer-events-none absolute top-1/2 left-1/2 size-[46rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/10 blur-[130px] transition-transform duration-500"
       />
 
       <div className="relative mx-auto max-w-5xl px-6 text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold text-[#D4A24A] backdrop-blur-sm">
-          <Sparkles className="size-3.5" />
-          حلول برمجية متكاملة لثلاثة قطاعات
+        <div className="inline-flex items-center rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-xs font-semibold text-brand">
+          حلول برمجية متكاملة لأعمالك
         </div>
 
-        <h1 className="mx-auto mt-8 max-w-3xl text-4xl font-extrabold leading-[1.2] text-white sm:text-5xl lg:text-6xl">
+        <h1 className="mx-auto mt-8 max-w-3xl text-4xl font-bold leading-[1.25] text-slate-900 sm:text-5xl lg:text-6xl lg:leading-[1.2]">
           أنظمة ذكية تُحرّك{" "}
-          <span
-            style={{
-              background: "linear-gradient(135deg, #D4A24A 0%, #E8BE70 60%, #B8862B 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
-            قطاعك بأكمله
-          </span>
+          <span className="text-brand">قطاعك بأكمله</span>
         </h1>
 
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-400 sm:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-slate-600 sm:text-lg">
           روائس تقدّم أنظمة سحابية جاهزة ومُخصَّصة لقطاعات الاستقدام، تأجير السيارات،
           والسياحة — مبنية بأحدث التقنيات وقابلة للتوسّع مع نموّ أعمالك.
         </p>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <a
             href="#solutions-list"
-            className="group inline-flex items-center gap-2 rounded-xl bg-[#D4A24A] px-7 py-3.5 text-sm font-bold text-[#080e24] shadow-lg shadow-amber-500/20 transition-all hover:bg-[#E8BE70]"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/20 transition-colors hover:bg-indigo-700 sm:w-auto"
           >
             استكشف الحلول
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-all hover:bg-white/10"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900 sm:w-auto"
           >
             تواصل مع فريقنا
           </a>
         </div>
 
-        {/* Stats */}
-        <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+        {/* Stats — مطابقة لتصميم الرئيسية */}
+        <dl className="mx-auto mt-16 grid max-w-3xl grid-cols-1 gap-px overflow-hidden rounded-2xl border border-slate-200/80 bg-slate-200/80 shadow-sm sm:grid-cols-3">
           {[
             { value: "+3", label: "قطاعات متخصصة" },
             { value: "+50", label: "عميل نشط" },
             { value: "%99.9", label: "وقت التشغيل" },
           ].map((stat) => (
-            <div
-              key={stat.label}
-              className="bg-white/[0.03] px-4 py-7 text-center backdrop-blur-sm"
-            >
-              <dt className="text-3xl font-bold text-[#D4A24A]">{stat.value}</dt>
-              <dd className="mt-2 text-xs font-medium text-slate-400">{stat.label}</dd>
+            <div key={stat.label} className="bg-white px-6 py-8">
+              <dt className="text-3xl font-bold text-slate-900">{stat.value}</dt>
+              <dd className="mt-2 text-sm font-medium text-slate-500">{stat.label}</dd>
             </div>
           ))}
         </dl>
@@ -114,3 +81,4 @@ export function SolutionsHero() {
     </section>
   );
 }
+

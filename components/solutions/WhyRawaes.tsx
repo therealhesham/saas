@@ -48,19 +48,16 @@ const reasons = [
 
 export function WhyRawaes() {
   return (
-    <section dir="rtl" className="bg-[#080e24] py-24 sm:py-32">
-      {/* فاصل تدرج */}
-      <div className="pointer-events-none -mt-1 h-20 bg-gradient-to-b from-[#060c1e] to-[#080e24]" />
-
+    <section dir="rtl" className="bg-slate-50 py-24 sm:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-white/5 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#D4A24A]">
+          <span className="text-sm font-semibold text-brand">
             لماذا روائس؟
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold text-white sm:text-4xl">
+          <h2 className="mt-3 text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">
             أكثر من مجرد برنامج — شريك نجاح حقيقي
           </h2>
-          <p className="mt-4 text-base leading-8 text-slate-400">
+          <p className="mt-5 text-base leading-8 text-slate-600">
             نبني أنظمة تنمو مع أعمالك وتتكيّف مع متطلباتك المتغيّرة دائماً.
           </p>
         </div>
@@ -71,7 +68,7 @@ export function WhyRawaes() {
             return (
               <div
                 key={reason.title}
-                className="group relative overflow-hidden rounded-2xl border border-white/8 bg-white/[0.03] p-7 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.06]"
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-7 transition-all duration-300 hover:border-slate-300 hover:shadow-md"
               >
                 {/* Icon */}
                 <span
@@ -85,10 +82,10 @@ export function WhyRawaes() {
                   />
                 </span>
 
-                <h3 className="mt-5 text-base font-bold text-white">
+                <h3 className="mt-5 text-base font-bold text-slate-900">
                   {reason.title}
                 </h3>
-                <p className="mt-2 text-sm leading-7 text-slate-400">
+                <p className="mt-2 text-sm leading-7 text-slate-600">
                   {reason.description}
                 </p>
 

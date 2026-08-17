@@ -109,18 +109,18 @@ export function SolutionsList() {
     <section
       id="solutions-list"
       dir="rtl"
-      className="bg-[#060c1e] py-24 sm:py-32"
+      className="bg-white py-24 sm:py-32"
     >
       <div className="mx-auto max-w-6xl px-6">
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <span className="inline-block rounded-full bg-[#D4A24A]/10 px-4 py-1 text-xs font-bold uppercase tracking-widest text-[#D4A24A]">
+          <span className="text-sm font-semibold text-brand">
             حلولنا
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold leading-snug text-white sm:text-4xl">
-            ثلاثة قطاعات، منظومة واحدة متكاملة
+          <h2 className="mt-3 text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">
+            منظومة حلول متكاملة لأعمالك
           </h2>
-          <p className="mt-4 text-base leading-8 text-slate-400">
+          <p className="mt-5 text-base leading-8 text-slate-600">
             كل نظام مُصمَّم خصيصاً لقطاعه، ويمكن دمجها معاً لتحقيق أقصى كفاءة تشغيلية.
           </p>
         </div>
@@ -172,7 +172,7 @@ function SolutionCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ transition: "transform 0.3s ease" }}
-      className={`group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] transition-all duration-300 ${solution.borderGlow} hover:shadow-2xl`}
+      className={`group relative overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-300 ${solution.borderGlow} hover:shadow-xl hover:shadow-slate-200/80`}
     >
       {/* Glow BG */}
       <div
@@ -199,7 +199,7 @@ function SolutionCard({
             {solution.tag}
           </span>
 
-          <h3 className="mt-4 text-2xl font-extrabold text-white sm:text-3xl">
+          <h3 className="mt-4 text-2xl font-extrabold text-slate-900 sm:text-3xl">
             {solution.title}
           </h3>
           <p
@@ -208,7 +208,7 @@ function SolutionCard({
           >
             {solution.subtitle}
           </p>
-          <p className="mt-4 text-sm leading-7 text-slate-400">
+          <p className="mt-4 text-sm leading-7 text-slate-600">
             {solution.description}
           </p>
 
@@ -234,18 +234,18 @@ function SolutionCard({
               return (
                 <div
                   key={feat.text}
-                  className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.04] px-4 py-3.5 backdrop-blur-sm transition-all duration-200 hover:bg-white/[0.07]"
+                  className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3.5 transition-all duration-200 hover:bg-slate-100/80"
                 >
                   <span
                     className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg"
-                    style={{ background: `${solution.accentColor}20` }}
+                    style={{ background: `${solution.accentColor}15` }}
                   >
                     <Icon
                       className="size-4"
                       style={{ color: solution.accentColor }}
                     />
                   </span>
-                  <span className="text-sm font-medium leading-6 text-slate-300">
+                  <span className="text-sm font-medium leading-6 text-slate-700">
                     {feat.text}
                   </span>
                 </div>
