@@ -8,11 +8,14 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const [productsRaw, projectsRaw] = await Promise.all([
+  const [productsRaw, projectsRaw, solutionsRaw] = await Promise.all([
     prisma.product.findMany({
       orderBy: [{ position: "asc" }, { id: "asc" }],
     }),
     prisma.project.findMany({
+      orderBy: [{ position: "asc" }, { id: "asc" }],
+    }),
+    prisma.solution.findMany({
       orderBy: [{ position: "asc" }, { id: "asc" }],
     }),
   ]);
@@ -50,6 +53,23 @@ export default async function AdminPage() {
     featured: project.featured,
   }));
 
+  const editableSolutions = solutionsRaw.map((solution) => ({
+    id: solution.id,
+    slug: solution.slug,
+    tag: solution.tag,
+    title: solution.title,
+    subtitle: solution.subtitle,
+    description: solution.description,
+    accentColor: solution.accentColor,
+    features: Array.isArray(solution.features)
+      ? (solution.features as Array<{ icon: string; text: string }>)
+      : [],
+    ctaText: solution.ctaText,
+    ctaHref: solution.ctaHref,
+    position: solution.position,
+    published: solution.published,
+  }));
+
   return (
     <main className="min-h-screen flex-1 bg-slate-50">
       <header className="border-b border-slate-200 bg-white sticky top-0 z-10">
@@ -60,6 +80,15 @@ export default async function AdminPage() {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              href="/solutions"
+              target="_blank"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-50"
+            >
+              <ExternalLink className="size-4" />
+              صفحة الحلول
+            </Link>
+
             <Link
               href="/projects"
               target="_blank"
@@ -92,7 +121,11 @@ export default async function AdminPage() {
       </header>
 
       <div className="mx-auto max-w-5xl px-6 py-8">
-        <AdminTabs products={editableProducts} projects={editableProjects} />
+        <AdminTabs
+          products={editableProducts}
+          projects={editableProjects}
+          solutions={editableSolutions}
+        />
       </div>
     </main>
   );

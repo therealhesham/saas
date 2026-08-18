@@ -1,110 +1,92 @@
 "use client";
 
 import { useRef } from "react";
-import {
-  Users,
-  FileText,
-  Search,
-  Globe,
-  BarChart3,
-  CheckCircle2,
-  ArrowLeft,
-  Car,
-  KeyRound,
-  CreditCard,
-  MapPin,
-  Calendar,
-  Star,
-  Compass,
-  Hotel,
-  Plane,
-  Package,
-  Clock,
-  Shield,
-} from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { resolveSolutionIcon } from "@/lib/solution-icons";
 
-const solutions = [
+export type PublicSolutionItem = {
+  id: number | string;
+  slug: string;
+  tag: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  accentColor: string;
+  features: Array<{ icon: string; text: string }>;
+  ctaText: string;
+  ctaHref: string;
+};
+
+const DEFAULT_SOLUTIONS: PublicSolutionItem[] = [
   {
     id: "recruitment",
+    slug: "recruitment",
     tag: "الاستقدام",
     title: "نظام إدارة الاستقدام",
     subtitle: "من الطلب حتى الوصول",
     description:
       "منصة متكاملة تُغطّي كامل دورة حياة عملية الاستقدام — من إدارة الطلبات والمرشّحين إلى متابعة الأوراق الرسمية والتأشيرات وإحصائيات الأداء.",
-    color: "#0D1B3D",
     accentColor: "#3B5BDB",
-    glowColor: "rgba(59, 91, 219, 0.15)",
-    lightBg: "#EEF2FF",
-    iconBg: "bg-indigo-600",
-    badgeClass: "bg-indigo-100 text-indigo-700",
     features: [
-      { icon: Users, text: "إدارة المرشّحين والعمال بالكامل" },
-      { icon: FileText, text: "متابعة الأوراق والتأشيرات" },
-      { icon: Search, text: "بحث وفلترة متقدّمة" },
-      { icon: BarChart3, text: "تقارير وإحصائيات تفصيلية" },
-      { icon: Globe, text: "دعم متعدد المكاتب والدول" },
-      { icon: Shield, text: "صلاحيات وأدوار متعددة" },
+      { icon: "Users", text: "إدارة المرشّحين والعمال بالكامل" },
+      { icon: "FileText", text: "متابعة الأوراق والتأشيرات" },
+      { icon: "Search", text: "بحث وفلترة متقدّمة" },
+      { icon: "BarChart3", text: "تقارير وإحصائيات تفصيلية" },
+      { icon: "Globe", text: "دعم متعدد المكاتب والدول" },
+      { icon: "Shield", text: "صلاحيات وأدوار متعددة" },
     ],
-    cta: "استكشف نظام الاستقدام",
-    href: "#recruitment",
-    gradient: "from-indigo-950 to-[#080e24]",
-    borderGlow: "hover:border-indigo-500/40",
+    ctaText: "استكشف نظام الاستقدام",
+    ctaHref: "#recruitment",
   },
   {
     id: "rentcar",
+    slug: "rentcar",
     tag: "تأجير السيارات",
     title: "نظام تأجير السيارات",
     subtitle: "أسطولك في راحة يدك",
     description:
       "منصة سحابية شاملة لإدارة أسطول السيارات، حجوزات العملاء، العقود، الفواتير، والصيانة — كل شيء في مكان واحد.",
-    color: "#3D2800",
     accentColor: "#D4A24A",
-    glowColor: "rgba(212, 162, 74, 0.15)",
-    lightBg: "#FEFCE8",
-    iconBg: "bg-amber-500",
-    badgeClass: "bg-amber-100 text-amber-700",
     features: [
-      { icon: Car, text: "إدارة الأسطول والسيارات" },
-      { icon: Calendar, text: "نظام حجوزات متكامل" },
-      { icon: KeyRound, text: "عقود إيجار رقمية" },
-      { icon: CreditCard, text: "فواتير ومدفوعات إلكترونية" },
-      { icon: MapPin, text: "تتبّع مواقع الاستلام والتسليم" },
-      { icon: Clock, text: "تنبيهات الصيانة والتجديد" },
+      { icon: "Car", text: "إدارة الأسطول والسيارات" },
+      { icon: "Calendar", text: "نظام حجوزات متكامل" },
+      { icon: "KeyRound", text: "عقود إيجار رقمية" },
+      { icon: "CreditCard", text: "فواتير ومدفوعات إلكترونية" },
+      { icon: "MapPin", text: "تتبّع مواقع الاستلام والتسليم" },
+      { icon: "Clock", text: "تنبيهات الصيانة والتجديد" },
     ],
-    cta: "استكشف نظام التأجير",
-    href: "#rentcar",
-    gradient: "from-amber-950 to-[#080e24]",
-    borderGlow: "hover:border-amber-500/40",
+    ctaText: "استكشف نظام التأجير",
+    ctaHref: "#rentcar",
   },
   {
     id: "tourism",
+    slug: "tourism",
     tag: "السياحة",
     title: "النظام السياحي المتكامل",
     subtitle: "رحلات لا تُنسى، إدارة لا مثيل لها",
     description:
       "منصة سياحية متكاملة لإدارة البرامج والباقات السياحية، الحجوزات، الفنادق، تذاكر الطيران، والعملاء — تصمّم تجارب استثنائية بكفاءة عالية.",
-    color: "#0D2B20",
     accentColor: "#10B981",
-    glowColor: "rgba(16, 185, 129, 0.15)",
-    lightBg: "#ECFDF5",
-    iconBg: "bg-emerald-600",
-    badgeClass: "bg-emerald-100 text-emerald-700",
     features: [
-      { icon: Package, text: "إدارة الباقات والبرامج السياحية" },
-      { icon: Hotel, text: "حجوزات الفنادق والإقامة" },
-      { icon: Plane, text: "إدارة تذاكر الطيران" },
-      { icon: Compass, text: "بناء مسارات سياحية مخصصة" },
-      { icon: Star, text: "تقييمات العملاء والتغذية الراجعة" },
-      { icon: BarChart3, text: "تقارير الإيرادات والأداء" },
+      { icon: "Package", text: "إدارة الباقات والبرامج السياحية" },
+      { icon: "Hotel", text: "حجوزات الفنادق والإقامة" },
+      { icon: "Plane", text: "إدارة تذاكر الطيران" },
+      { icon: "Compass", text: "بناء مسارات سياحية مخصصة" },
+      { icon: "Star", text: "تقييمات العملاء والتغذية الراجعة" },
+      { icon: "BarChart3", text: "تقارير الإيرادات والأداء" },
     ],
-    cta: "استكشف النظام السياحي",
-    href: "#tourism",
-    gradient: "from-emerald-950 to-[#080e24]",
-    borderGlow: "hover:border-emerald-500/40",
+    ctaText: "استكشف النظام السياحي",
+    ctaHref: "#tourism",
   },
 ];
 
-export function SolutionsList() {
+export function SolutionsList({
+  solutions,
+}: {
+  solutions?: PublicSolutionItem[];
+}) {
+  const items = solutions && solutions.length > 0 ? solutions : DEFAULT_SOLUTIONS;
+
   return (
     <section
       id="solutions-list"
@@ -127,7 +109,7 @@ export function SolutionsList() {
 
         {/* Cards */}
         <div className="mt-16 flex flex-col gap-8">
-          {solutions.map((sol, idx) => {
+          {items.map((sol, idx) => {
             return (
               <SolutionCard key={sol.id} solution={sol} reversed={idx % 2 === 1} />
             );
@@ -142,7 +124,7 @@ function SolutionCard({
   solution,
   reversed,
 }: {
-  solution: (typeof solutions)[0];
+  solution: PublicSolutionItem;
   reversed: boolean;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -166,20 +148,22 @@ function SolutionCard({
     }
   };
 
+  const glowColor = `${solution.accentColor}25`;
+
   return (
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ transition: "transform 0.3s ease" }}
-      className={`group relative overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-300 ${solution.borderGlow} hover:shadow-xl hover:shadow-slate-200/80`}
+      className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/80"
     >
       {/* Glow BG */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
         style={{
-          background: `radial-gradient(600px circle at 50% 50%, ${solution.glowColor}, transparent 60%)`,
+          background: `radial-gradient(600px circle at 50% 50%, ${glowColor}, transparent 60%)`,
         }}
       />
 
@@ -213,15 +197,15 @@ function SolutionCard({
           </p>
 
           <a
-            href={solution.href}
-            className="group/btn mt-8 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white shadow-lg transition-all"
+            href={solution.ctaHref}
+            className="group/btn mt-8 inline-flex items-center gap-2 rounded-xl px-6 py-3 text-sm font-bold shadow-lg transition-all"
             style={{
               background: solution.accentColor,
-              boxShadow: `0 8px 24px ${solution.glowColor}`,
-              color: solution.id === "rentcar" ? "#3D2800" : "white",
+              boxShadow: `0 8px 24px ${glowColor}`,
+              color: solution.slug === "rentcar" || solution.accentColor.toLowerCase() === "#d4a24a" ? "#3D2800" : "white",
             }}
           >
-            {solution.cta}
+            {solution.ctaText}
             <ArrowLeft className="size-4 transition-transform group-hover/btn:-translate-x-1" />
           </a>
         </div>
@@ -229,11 +213,11 @@ function SolutionCard({
         {/* Right: Features Grid */}
         <div className="flex-1">
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-            {solution.features.map((feat) => {
-              const Icon = feat.icon;
+            {solution.features.map((feat, idx) => {
+              const Icon = resolveSolutionIcon(feat.icon);
               return (
                 <div
-                  key={feat.text}
+                  key={idx}
                   className="flex items-start gap-3 rounded-2xl border border-slate-100 bg-slate-50 px-4 py-3.5 transition-all duration-200 hover:bg-slate-100/80"
                 >
                   <span
