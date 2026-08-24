@@ -1,29 +1,51 @@
 "use client";
 
 import { useState } from "react";
-import { Layers, FolderGit2, PackageOpen, FolderKanban, Sparkles, Lightbulb } from "lucide-react";
+import { Layers, FolderGit2, PackageOpen, FolderKanban, Sparkles, Lightbulb, MessageSquare } from "lucide-react";
 import { AddProductPanel, type EditableProduct } from "@/app/admin/product-form";
 import { ProductRow } from "@/app/admin/product-row";
 import { AddProjectPanel, type EditableProject } from "@/app/admin/project-form";
 import { ProjectRow } from "@/app/admin/project-row";
 import { AddSolutionPanel, type EditableSolution } from "@/app/admin/solution-form";
 import { SolutionRow } from "@/app/admin/solution-row";
+import { ContactMessagesPanel, type ContactMessageItem } from "@/app/admin/contact-messages-panel";
 
 export function AdminTabs({
   products,
   projects,
   solutions,
+  messages = [],
 }: {
   products: EditableProduct[];
   projects: EditableProject[];
   solutions: EditableSolution[];
+  messages?: ContactMessageItem[];
 }) {
-  const [activeTab, setActiveTab] = useState<"projects" | "products" | "solutions">("solutions");
+  const [activeTab, setActiveTab] = useState<"messages" | "projects" | "products" | "solutions">("messages");
+  const newMessagesCount = messages.filter((m) => m.status === "جديد").length;
 
   return (
     <div>
       {/* Navigation Tabs */}
-      <div className="mb-8 flex items-center gap-2 border-b border-slate-200">
+      <div className="mb-8 flex items-center gap-2 border-b border-slate-200 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveTab("messages")}
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
+            activeTab === "messages"
+              ? "border-brand text-brand"
+              : "border-transparent text-slate-500 hover:text-slate-900"
+          }`}
+        >
+          <MessageSquare className="size-4" />
+          طلبات التواصل ({messages.length})
+          {newMessagesCount > 0 ? (
+            <span className="rounded-full bg-amber-500 px-2 py-0.5 text-[11px] font-bold text-white">
+              {newMessagesCount} جديد
+            </span>
+          ) : null}
+        </button>
+
         <button
           type="button"
           onClick={() => setActiveTab("solutions")}
@@ -63,6 +85,21 @@ export function AdminTabs({
           إدارة المنتجات ({products.length})
         </button>
       </div>
+
+      {/* Messages Tab */}
+      {activeTab === "messages" && (
+        <div>
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-slate-900">طلبات التواصل والتجربة المجانية</h1>
+            <p className="mt-1 text-sm text-slate-500">
+              جميع الرسائل والطلبات المستلمة من الزوار عبر نموذج "ابدأ مجاناً"
+            </p>
+          </div>
+
+          <ContactMessagesPanel messages={messages} />
+        </div>
+      )}
+
 
       {/* Solutions Tab */}
       {activeTab === "solutions" && (

@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { ArrowLeft, CirclePlay, Sparkles, Star } from "lucide-react";
+import { CirclePlay, Sparkles, Star } from "lucide-react";
 import { DashboardPreview } from "@/components/dashboard-preview";
 import { LaptopMockup } from "@/components/laptop-mockup";
 import { SiteHeader } from "@/components/site-header";
+import { StartFreeButton } from "@/components/start-free-button";
 import { prisma } from "@/lib/prisma";
 import { findScreenshot } from "@/lib/screenshots";
+
 
 async function countPublishedProjects(): Promise<number | null> {
   try {
@@ -52,14 +54,13 @@ export async function HeroSection() {
         </p>
 
         <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <a
-            href="#signup"
+          <StartFreeButton
+            label="ابدأ تجربتك المجانية"
             className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-brand/20 transition-colors hover:bg-indigo-700 sm:w-auto"
-          >
-            ابدأ تجربتك المجانية
-            <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
-          </a>
+            showIcon={true}
+          />
           <a
+
             href="#demo"
             className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-7 py-3.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-900 sm:w-auto"
           >

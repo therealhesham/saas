@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { RawaesLogo } from "@/components/rawaes-logo";
+import { useContactModal } from "@/components/contact-modal-context";
 
 const navLinks = [
   { label: "المشاريع", href: "/#projects" },
@@ -14,6 +15,7 @@ const navLinks = [
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { openContactModal } = useContactModal();
 
   return (
     <header className="relative z-20 border-b border-slate-200/80 bg-white/90 backdrop-blur-md">
@@ -36,18 +38,13 @@ export function SiteHeader() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
-          <a
-            href="#login"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-slate-900"
-          >
-            تسجيل الدخول
-          </a>
-          <a
-            href="#signup"
+          <button
+            type="button"
+            onClick={() => openContactModal()}
             className="rounded-lg bg-brand px-4.5 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-indigo-700"
           >
             ابدأ مجاناً
-          </a>
+          </button>
         </div>
 
         <button
@@ -77,21 +74,20 @@ export function SiteHeader() {
             ))}
           </ul>
           <div className="mt-4 flex flex-col gap-2">
-            <a
-              href="#login"
-              className="rounded-lg border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50"
-            >
-              تسجيل الدخول
-            </a>
-            <a
-              href="#signup"
+            <button
+              type="button"
+              onClick={() => {
+                setOpen(false);
+                openContactModal();
+              }}
               className="rounded-lg bg-brand px-4 py-2.5 text-center text-sm font-semibold text-white shadow-sm"
             >
               ابدأ مجاناً
-            </a>
+            </button>
           </div>
         </div>
       ) : null}
     </header>
   );
 }
+

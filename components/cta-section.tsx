@@ -1,6 +1,8 @@
 import { ArrowLeft, Check, Mail } from "lucide-react";
 import { FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
 import { RawaesLogo } from "@/components/rawaes-logo";
+import { StartFreeButton } from "@/components/start-free-button";
+
 
 const perks = [
   "14 يوم تجربة لكل المنتجات",
@@ -39,22 +41,14 @@ export function CtaSection() {
             التجربة المجانية — بدون التزام.
           </p>
 
-          <form className="mx-auto mt-10 flex max-w-lg flex-col gap-3 sm:flex-row">
-            <input
-              type="email"
-              required
-              placeholder="بريدك الإلكتروني للعمل"
-              aria-label="بريدك الإلكتروني للعمل"
-              className="w-full rounded-xl border border-slate-300 bg-white px-5 py-3.5 text-sm text-slate-900 shadow-xs placeholder:text-slate-400 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+          <div className="mx-auto mt-10 flex max-w-lg justify-center">
+            <StartFreeButton
+              label="ابدأ تجربتك المجانية الآن"
+              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-8 py-4 text-base font-semibold text-white shadow-lg shadow-brand/25 transition-all hover:bg-indigo-700 hover:shadow-brand/35"
+              showIcon={true}
             />
-            <button
-              type="submit"
-              className="group inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-7 py-3.5 text-sm font-semibold text-white shadow-md shadow-brand/20 transition-colors hover:bg-indigo-700"
-            >
-              ابدأ الآن
-              <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
-            </button>
-          </form>
+          </div>
+
 
           <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs font-medium text-slate-600">
             {perks.map((perk) => (

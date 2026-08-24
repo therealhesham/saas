@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
-  const [productsRaw, projectsRaw, solutionsRaw] = await Promise.all([
+  const [productsRaw, projectsRaw, solutionsRaw, messagesRaw] = await Promise.all([
     prisma.product.findMany({
       orderBy: [{ position: "asc" }, { id: "asc" }],
     }),
@@ -17,6 +17,9 @@ export default async function AdminPage() {
     }),
     prisma.solution.findMany({
       orderBy: [{ position: "asc" }, { id: "asc" }],
+    }),
+    prisma.contactMessage.findMany({
+      orderBy: { createdAt: "desc" },
     }),
   ]);
 
@@ -68,6 +71,17 @@ export default async function AdminPage() {
     ctaHref: solution.ctaHref,
     position: solution.position,
     published: solution.published,
+  }));
+
+  const messagesList = messagesRaw.map((msg) => ({
+    id: msg.id,
+    name: msg.name,
+    phone: msg.phone,
+    email: msg.email,
+    service: msg.service,
+    message: msg.message,
+    status: msg.status,
+    createdAt: msg.createdAt.toISOString(),
   }));
 
   return (
@@ -125,8 +139,10 @@ export default async function AdminPage() {
           products={editableProducts}
           projects={editableProjects}
           solutions={editableSolutions}
+          messages={messagesList}
         />
       </div>
     </main>
   );
 }
+

@@ -85,3 +85,17 @@ model Project {
   @@index([published, position])
 }
 
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(120)
+  phone     String   @db.VarChar(50)
+  email     String?  @db.VarChar(120)
+  service   String?  @db.VarChar(100)
+  message   String?  @db.Text
+  status    String   @default("جديد") @db.VarChar(30)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+}
+
