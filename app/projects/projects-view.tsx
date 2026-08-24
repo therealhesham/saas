@@ -65,11 +65,10 @@ export function ProjectsView({ projects }: { projects: PublicProject[] }) {
               key={cat}
               type="button"
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${
-                selectedCategory === cat
+              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all ${selectedCategory === cat
                   ? "bg-brand text-white shadow-md shadow-brand/20 scale-105"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200/80 hover:text-slate-900"
-              }`}
+                }`}
             >
               {cat}
             </button>
@@ -132,7 +131,6 @@ export function ProjectsView({ projects }: { projects: PublicProject[] }) {
                   </span>
                   {project.featured && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/90 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white shadow-xs">
-                      <Sparkles className="size-3" />
                       مميز
                     </span>
                   )}

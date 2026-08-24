@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function ProjectsSection() {
   let projects: Awaited<ReturnType<typeof prisma.project.findMany>> = [];
-  
+
   try {
     projects = await prisma.project.findMany({
       where: { published: true },
@@ -86,7 +86,6 @@ export async function ProjectsSection() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3.5 py-1 text-xs font-bold text-brand">
-            <Sparkles className="size-3.5" />
             معرض المشاريع والحلول
           </span>
           <h2 className="mt-4 text-3xl font-bold leading-snug text-slate-900 sm:text-4xl">
@@ -128,7 +127,6 @@ export async function ProjectsSection() {
                     </span>
                     {project.featured && (
                       <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/90 backdrop-blur-md px-3 py-1 text-[11px] font-bold text-white shadow-xs">
-                        <Sparkles className="size-3" />
                         مميز
                       </span>
                     )}

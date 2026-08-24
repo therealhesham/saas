@@ -1,9 +1,10 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
-import { CheckCircle2, MessageSquare, Send, Sparkles, X } from "lucide-react";
+import { CheckCircle2, Send, Sparkles, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { submitContactMessage, type ContactSubmitState } from "@/app/contact-actions";
+import { RawaesLogo } from "@/components/rawaes-logo";
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -12,7 +13,7 @@ interface ContactModalProps {
 }
 
 const servicesOptions = [
-  "منظومة روائس للحلول السحابية (تجربة مجانية)",
+  "منظومة روائس السحابية (تجربة مجانية)",
   "منصة إدارة مكتب الاستقدام",
   "نظام إدارة تأجير السيارات",
   "منصة تنظيم الرحلات والسياحة",
@@ -20,7 +21,7 @@ const servicesOptions = [
   "استفسارات عامة",
 ];
 
-const ADMIN_WHATSAPP = "966500000000"; // يمكن للعميل تغييره
+const ADMIN_WHATSAPP = "966500000000";
 
 export function ContactModal({
   isOpen,
@@ -39,121 +40,123 @@ export function ContactModal({
   );
 
   useEffect(() => {
-    if (initialService) {
-      setService(initialService);
-    }
+    if (initialService) setService(initialService);
   }, [initialService]);
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
   if (!isOpen) return null;
 
   const buildWhatsappUrl = () => {
-    const text = `مرحباً إدارة روائس 👋%0A%0Aأود طلب التجربة المجانية / التواصل معكم.%0A%0A👤 *الاسم:* ${encodeURIComponent(
-      name || "غير محدد"
-    )}%0A📱 *الفيسبوك/الواتساب:* ${encodeURIComponent(
-      phone || "غير محدد"
-    )}%0A📧 *البريد:* ${encodeURIComponent(
-      email || "غير محدد"
-    )}%0A📌 *الخدمة المطلوبة:* ${encodeURIComponent(
-      service || "تجربة مجانية"
-    )}%0A💬 *ملاحظات:* ${encodeURIComponent(message || "بدون ملاحظات")}`;
-
+    const text = `مرحباً إدارة روائس 👋%0A%0Aأود التواصل وطلب التجربة المجانية.%0A%0A👤 *الاسم:* ${encodeURIComponent(name || "غير محدد")}%0A📱 *الجوال:* ${encodeURIComponent(phone || "غير محدد")}%0A📧 *البريد:* ${encodeURIComponent(email || "غير محدد")}%0A📌 *الخدمة:* ${encodeURIComponent(service || "تجربة مجانية")}%0A💬 *ملاحظات:* ${encodeURIComponent(message || "بدون ملاحظات")}`;
     return `https://wa.me/${ADMIN_WHATSAPP}?text=${text}`;
   };
 
-  const handleWhatsappClick = () => {
-    window.open(buildWhatsappUrl(), "_blank");
-  };
+  const inputBase =
+    "mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50/60 px-4 py-3 text-sm text-[#0D1B3D] shadow-xs transition-all placeholder:text-slate-400 focus:border-[#D4A24A] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#D4A24A]/25";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-900/60 p-4 backdrop-blur-sm transition-all duration-300 animate-in fade-in">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto p-4">
+      {/* Backdrop */}
       <div
-        className="fixed inset-0"
+        className="fixed inset-0 bg-[#0D1B3D]/70 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-slate-900/10">
-        {/* Header decoration bar */}
-        <div className="h-2 w-full bg-gradient-to-r from-brand via-indigo-500 to-purple-600" />
+      {/* Modal */}
+      <div className="relative w-full max-w-lg overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-[#0D1B3D]/10 animate-in fade-in zoom-in-95 duration-200">
 
-        {/* Close Button */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-5 left-5 rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
-          aria-label="إغلاق"
-        >
-          <X className="size-5" />
-        </button>
+        {/* Top gold bar */}
+        <div className="h-1.5 w-full bg-gradient-to-r from-[#B8862B] via-[#D4A24A] to-[#E5B869]" />
 
-        <div className="p-6 sm:p-8">
+        {/* Navy header */}
+        <div className="relative bg-[#0D1B3D] px-6 pt-5 pb-6">
+          {/* Decorative gold dots */}
+          <div className="pointer-events-none absolute right-6 top-4 flex gap-1 opacity-30">
+            {[20, 14, 8].map((s) => (
+              <span key={s} style={{ width: s, height: s }} className="rounded-full bg-[#D4A24A]" />
+            ))}
+          </div>
+
+          {/* Close button */}
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute top-4 left-4 rounded-full p-1.5 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+            aria-label="إغلاق"
+          >
+            <X className="size-5" />
+          </button>
+
+          {/* Logo + title */}
+          <div className="flex flex-col items-center gap-3 text-center">
+            <RawaesLogo variant="icon" className="h-12 opacity-90" />
+            <div>
+              <h2 className="text-xl font-extrabold tracking-wide text-white sm:text-2xl">
+                ابدأ مجاناً
+              </h2>
+              <p className="mt-1 text-[13px] text-white/60 leading-relaxed">
+                أرسل طلبك وسيتواصل معك فريقنا في أقرب وقت
+              </p>
+            </div>
+
+            {/* Gold badge */}
+            <div className="inline-flex items-center gap-1.5 rounded-full border border-[#D4A24A]/40 bg-[#D4A24A]/10 px-3 py-1 text-[11px] font-bold text-[#E5B869]">
+              14 يوماً تجربة مجانية · بدون بطاقة ائتمانية
+            </div>
+          </div>
+        </div>
+
+        {/* Form body */}
+        <div className="px-6 py-6">
           {state.success ? (
-            <div className="py-8 text-center animate-in zoom-in-95">
-              <div className="mx-auto flex size-16 items-center justify-center rounded-full bg-emerald-50 text-emerald-600 ring-8 ring-emerald-50/50">
-                <CheckCircle2 className="size-10" />
+            /* ── Success State ── */
+            <div className="py-6 text-center animate-in zoom-in-95 duration-300">
+              <div className="mx-auto mb-5 flex size-20 items-center justify-center rounded-full bg-[#D4A24A]/10 ring-8 ring-[#D4A24A]/10">
+                <CheckCircle2 className="size-10 text-[#D4A24A]" />
               </div>
-              <h3 className="mt-5 text-2xl font-bold text-slate-900">
-                تم إرسال طلبك بنجاح!
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                شكراً لتواصلك معنا. تم استلام طلبك لدى إدارة المنصة وسيتم التواصل
-                معك في أسرع وقت.
+              <h3 className="text-xl font-bold text-[#0D1B3D]">تم إرسال طلبك!</h3>
+              <p className="mx-auto mt-2 max-w-xs text-sm text-slate-500 leading-relaxed">
+                استلمنا طلبك بنجاح. سيتواصل معك فريق روائس في أقرب وقت ممكن.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3">
-                <button
-                  type="button"
-                  onClick={handleWhatsappClick}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-600 px-6 py-3.5 text-sm font-semibold text-white shadow-md shadow-emerald-600/20 transition-all hover:bg-emerald-700"
+              <div className="mt-7 flex flex-col gap-2.5">
+                <a
+                  href={buildWhatsappUrl()}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0D1B3D] py-3.5 text-sm font-bold text-[#D4A24A] shadow-lg shadow-[#0D1B3D]/20 transition-all hover:bg-[#1a2e5a]"
                 >
-                  <FaWhatsapp className="size-5" />
-                  متابعة الطلب عبر الواتساب فوراً
-                </button>
+                  <FaWhatsapp className="size-5 text-emerald-400" />
+                  متابعة عبر الواتساب
+                </a>
                 <button
                   type="button"
                   onClick={onClose}
-                  className="w-full rounded-xl border border-slate-200 px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50"
+                  className="w-full rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
                 >
-                  إغلاق النافذة
+                  إغلاق
                 </button>
               </div>
             </div>
           ) : (
+            /* ── Form State ── */
             <>
-              <div className="flex items-center gap-2 text-xs font-semibold text-brand">
-                <Sparkles className="size-4" />
-                <span>تجربة مجانية وبدون أي التزام</span>
-              </div>
-
-              <h2 className="mt-2 text-2xl font-bold text-slate-900 sm:text-3xl">
-                ابدأ مجاناً — تواصل مع الإدارة
-              </h2>
-              <p className="mt-2 text-sm text-slate-600">
-                أملاً النموذج أدناه لإرسال رسالة مباشرة لإدارة روائس وتفعيل حسابك
-                أو طلب استشارة.
-              </p>
-
-              {state.error ? (
-                <div className="mt-4 rounded-xl bg-rose-50 p-3.5 text-sm text-rose-700 border border-rose-200">
+              {state.error && (
+                <div className="mb-4 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
                   {state.error}
                 </div>
-              ) : null}
+              )}
 
-              <form action={formAction} className="mt-6 space-y-4">
+              <form action={formAction} className="space-y-4">
+                {/* Name */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">
-                    الاسم الكامل <span className="text-rose-500">*</span>
+                  <label className="block text-xs font-bold text-[#0D1B3D]">
+                    الاسم الكامل <span className="text-[#D4A24A]">*</span>
                   </label>
                   <input
                     type="text"
@@ -162,14 +165,15 @@ export function ContactModal({
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="مثال: أحمد المحمد"
-                    className="mt-1.5 w-full rounded-xl border border-slate-300 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 shadow-xs transition-colors placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputBase}
                   />
                 </div>
 
+                {/* Phone + Email */}
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700">
-                      رقم الجوال / الواتساب <span className="text-rose-500">*</span>
+                    <label className="block text-xs font-bold text-[#0D1B3D]">
+                      رقم الجوال / الواتساب <span className="text-[#D4A24A]">*</span>
                     </label>
                     <input
                       type="tel"
@@ -178,13 +182,12 @@ export function ContactModal({
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       placeholder="05XXXXXXXX"
-                      className="mt-1.5 w-full rounded-xl border border-slate-300 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 shadow-xs transition-colors placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20"
+                      className={inputBase}
                     />
                   </div>
-
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700">
-                      البريد الإلكتروني (اختياري)
+                    <label className="block text-xs font-bold text-[#0D1B3D]">
+                      البريد الإلكتروني
                     </label>
                     <input
                       type="email"
@@ -192,67 +195,71 @@ export function ContactModal({
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="name@company.com"
-                      className="mt-1.5 w-full rounded-xl border border-slate-300 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 shadow-xs transition-colors placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20"
+                      className={inputBase}
                     />
                   </div>
                 </div>
 
+                {/* Service */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">
+                  <label className="block text-xs font-bold text-[#0D1B3D]">
                     الخدمة المطلوبة
                   </label>
                   <select
                     name="service"
                     value={service}
                     onChange={(e) => setService(e.target.value)}
-                    className="mt-1.5 w-full rounded-xl border border-slate-300 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 shadow-xs transition-colors focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20"
+                    className={inputBase}
                   >
-                    <option value="">اختر الخدمة أو المنتج...</option>
+                    <option value="">اختر الخدمة...</option>
                     {servicesOptions.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
+                      <option key={opt} value={opt}>{opt}</option>
                     ))}
                   </select>
                 </div>
 
+                {/* Message */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700">
-                    تفاصيل الرسالة أو ملاحظاتك
+                  <label className="block text-xs font-bold text-[#0D1B3D]">
+                    تفاصيل الرسالة
                   </label>
                   <textarea
                     name="message"
                     rows={3}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    placeholder="اكتب أي استفسار أو متطلبات خاصة هنا..."
-                    className="mt-1.5 w-full rounded-xl border border-slate-300 bg-slate-50/50 px-4 py-3 text-sm text-slate-900 shadow-xs transition-colors placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20 resize-none"
+                    placeholder="اكتب أي استفسار أو تفاصيل إضافية هنا..."
+                    className={`${inputBase} resize-none`}
                   />
                 </div>
 
-                <div className="mt-6 flex flex-col gap-2.5 pt-2">
+                {/* Actions */}
+                <div className="space-y-2.5 pt-1">
                   <button
                     type="submit"
                     disabled={pending}
-                    className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand py-3.5 text-sm font-semibold text-white shadow-md shadow-brand/20 transition-all hover:bg-indigo-700 disabled:opacity-60"
+                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#0D1B3D] py-3.5 text-sm font-bold text-white shadow-lg shadow-[#0D1B3D]/25 transition-all hover:bg-[#1a2e5a] disabled:opacity-60"
                   >
-                    <Send className="size-4 transition-transform group-hover:-translate-x-1" />
-                    {pending ? "جاري إرسال الرسالة..." : "إرسال طلب للأدمن الآن"}
+                    <Send className="size-4 text-[#D4A24A] transition-transform group-hover:-translate-x-1" />
+                    {pending ? "جاري الإرسال..." : "إرسال الطلب للإدارة"}
                   </button>
 
                   <button
                     type="button"
-                    onClick={handleWhatsappClick}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-slate-50 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-emerald-50 hover:text-emerald-700 hover:border-emerald-200"
+                    onClick={() => window.open(buildWhatsappUrl(), "_blank")}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#D4A24A]/40 bg-[#D4A24A]/5 py-3 text-sm font-semibold text-[#0D1B3D] transition-all hover:border-[#D4A24A] hover:bg-[#D4A24A]/10"
                   >
                     <FaWhatsapp className="size-4 text-emerald-600" />
-                    أو المراسلة المباشرة عبر الواتساب
+                    مراسلة مباشرة عبر الواتساب
                   </button>
                 </div>
               </form>
             </>
           )}
         </div>
+
+        {/* Bottom gold accent */}
+        <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D4A24A]/30 to-transparent" />
       </div>
     </div>
   );

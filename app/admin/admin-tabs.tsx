@@ -31,11 +31,10 @@ export function AdminTabs({
         <button
           type="button"
           onClick={() => setActiveTab("messages")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
-            activeTab === "messages"
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${activeTab === "messages"
               ? "border-brand text-brand"
               : "border-transparent text-slate-500 hover:text-slate-900"
-          }`}
+            }`}
         >
           <MessageSquare className="size-4" />
           طلبات التواصل ({messages.length})
@@ -49,24 +48,21 @@ export function AdminTabs({
         <button
           type="button"
           onClick={() => setActiveTab("solutions")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
-            activeTab === "solutions"
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${activeTab === "solutions"
               ? "border-brand text-brand"
               : "border-transparent text-slate-500 hover:text-slate-900"
-          }`}
+            }`}
         >
-          <Sparkles className="size-4" />
           إدارة الحلول ({solutions.length})
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab("projects")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
-            activeTab === "projects"
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${activeTab === "projects"
               ? "border-brand text-brand"
               : "border-transparent text-slate-500 hover:text-slate-900"
-          }`}
+            }`}
         >
           <FolderGit2 className="size-4" />
           إدارة المشاريع ({projects.length})
@@ -75,11 +71,10 @@ export function AdminTabs({
         <button
           type="button"
           onClick={() => setActiveTab("products")}
-          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${
-            activeTab === "products"
+          className={`flex items-center gap-2 border-b-2 px-4 py-3 text-sm font-semibold transition-colors ${activeTab === "products"
               ? "border-brand text-brand"
               : "border-transparent text-slate-500 hover:text-slate-900"
-          }`}
+            }`}
         >
           <Layers className="size-4" />
           إدارة المنتجات ({products.length})

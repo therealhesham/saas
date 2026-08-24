@@ -52,7 +52,6 @@ export function SolutionRow({
         className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl text-white font-bold shadow-xs"
         style={{ backgroundColor: solution.accentColor }}
       >
-        <Sparkles className="size-5" />
       </span>
 
       <div className="min-w-0 flex-1">

@@ -193,7 +193,6 @@ export default async function ProjectDetailPage({ params }: Props) {
 
               {project.featured && (
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3.5 py-1 text-xs font-bold text-amber-700 border border-amber-200">
-                  <Sparkles className="size-3.5 text-amber-500" />
                   مشروع مميز
                 </span>
               )}
