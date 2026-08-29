@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/site-header";
 import { ProjectsView, PublicProject } from "@/app/projects/projects-view";
 import { prisma } from "@/lib/prisma";
@@ -136,6 +137,7 @@ async function getProjects(): Promise<PublicProject[]> {
 }
 
 export default async function ProjectsPage() {
+  notFound();
   const projects = await getProjects();
 
   return (

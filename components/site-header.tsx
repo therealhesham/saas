@@ -6,8 +6,6 @@ import { RawaesLogo } from "@/components/rawaes-logo";
 import { useContactModal } from "@/components/contact-modal-context";
 
 const navLinks = [
-  { label: "المشاريع", href: "/#projects" },
-  { label: "معرض الأعمال", href: "/projects" },
   { label: "الحلول", href: "/solutions" },
   { label: "الأسعار", href: "/#pricing" },
   { label: "الشركاء", href: "/#partners" },

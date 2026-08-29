@@ -104,15 +104,6 @@ export default async function AdminPage() {
             </Link>
 
             <Link
-              href="/projects"
-              target="_blank"
-              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-50"
-            >
-              <ExternalLink className="size-4" />
-              صفحة مشاريعنا
-            </Link>
-
-            <Link
               href="/"
               target="_blank"
               className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 transition-colors hover:bg-slate-50"

@@ -39,12 +39,6 @@ export function SolutionsCta() {
             تواصل معنا الآن
             <ArrowLeft className="size-4 transition-transform group-hover:-translate-x-1" />
           </a>
-          <a
-            href="/projects"
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-8 py-4 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50"
-          >
-            شاهد أعمالنا
-          </a>
         </div>
 
         {/* Contact Info */}

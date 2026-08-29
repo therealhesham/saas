@@ -1,6 +1,32 @@
 import { PrismaClient } from "@prisma/client";
+import { randomBytes, scryptSync } from "node:crypto";
 
 const prisma = new PrismaClient();
+
+function hashPassword(password) {
+  const salt = randomBytes(16).toString("hex");
+  const derived = scryptSync(password, salt, 32).toString("hex");
+  return `${salt}:${derived}`;
+}
+
+// إدخال حساب الأدمن
+const adminEmail = "admin@rawaes.com";
+const adminPasswordRaw = "123456789";
+const hashedPassword = hashPassword(adminPasswordRaw);
+
+await prisma.admin.upsert({
+  where: { email: adminEmail },
+  update: {
+    password: hashedPassword,
+  },
+  create: {
+    email: adminEmail,
+    name: "مدير النظام",
+    password: hashedPassword,
+  },
+});
+
+console.log(`تم إدخال/تحديث حساب الأدمن بنجاح: ${adminEmail}`);
 
 // نفس المنتجات اللي كانت مكتوبة في components/products-section.tsx
 const products = [
