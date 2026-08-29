@@ -102,3 +102,5 @@ export function LoginForm({ next }: { next: string }) {
         </span>
       </button>
     </form>
+  );
+}
