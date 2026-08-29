@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 import {
   SESSION_COOKIE,
   createSessionValue,
@@ -15,16 +16,37 @@ export async function login(
   _prevState: LoginState,
   formData: FormData,
 ): Promise<LoginState> {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
   const next = String(formData.get("next") ?? "/admin");
-  const storedHash = process.env.ADMIN_PASSWORD_HASH;
 
-  if (!storedHash) {
-    return { error: "ADMIN_PASSWORD_HASH مش متظبط في ملف .env" };
+  if (!email || !password) {
+    return { error: "يرجى أدخال البريد الإلكتروني وكلمة المرور" };
   }
 
-  if (!verifyPassword(password, storedHash)) {
-    return { error: "الباسورد غير صحيح" };
+  let isValid = false;
+
+  try {
+    const admin = await prisma.admin.findUnique({
+      where: { email },
+    });
+
+    if (admin && admin.password) {
+      isValid = verifyPassword(password, admin.password);
+    }
+  } catch (error) {
+    console.warn("خطأ في التحقق من قاعدة البيانات، استخدام التحقق المسبق:", error);
+  }
+
+  // دعم الاحتياطي في حال تعذر الدخول بالـ DB
+  if (!isValid && process.env.ADMIN_PASSWORD_HASH) {
+    if (email === "admin@rawaes.com" || email === "admin") {
+      isValid = verifyPassword(password, process.env.ADMIN_PASSWORD_HASH);
+    }
+  }
+
+  if (!isValid) {
+    return { error: "البريد الإلكتروني أو كلمة المرور غير صحيحة" };
   }
 
   const cookieStore = await cookies();
