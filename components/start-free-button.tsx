@@ -25,7 +25,7 @@ export function StartFreeButton({
     <button
       type="button"
       onClick={() => openContactModal(service)}
-      className={defaultClass}
+      className={`${defaultClass} cursor-pointer`}
     >
       {/* Gold shimmer sweep */}
       <span

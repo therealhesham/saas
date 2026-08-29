@@ -4,13 +4,18 @@ interface RawaesLogoProps {
   variant?: "full" | "horizontal" | "icon" | "navbar";
   className?: string;
   iconOnly?: boolean;
+  light?: boolean;
 }
 
 export function RawaesLogo({
   variant = "horizontal",
   className = "h-9",
   iconOnly = false,
+  light = false,
 }: RawaesLogoProps) {
+  const primaryColor = light ? "#FFFFFF" : "#0D1B3D";
+  const pixelColor = light ? "#D4A24A" : "#0D1B3D";
+
   if (iconOnly || variant === "icon") {
     return (
       <svg
@@ -21,30 +26,30 @@ export function RawaesLogo({
         aria-label="شعار روائس"
       >
         <defs>
-          <linearGradient id="rawaes-gold" x1="0%" y1="100%" x2="100%" y2="0%">
+          <linearGradient id={`rawaes-gold-${light ? "light" : "dark"}`} x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#B8862B" />
             <stop offset="50%" stopColor="#D4A24A" />
             <stop offset="100%" stopColor="#E5B869" />
           </linearGradient>
         </defs>
 
-        {/* 4 Navy Pixels (Bottom Left) */}
-        <rect x="24" y="100" width="10" height="10" rx="1.5" fill="#0D1B3D" />
-        <rect x="24" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
-        <rect x="39" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
-        <rect x="54" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
+        {/* 4 Pixels (Bottom Left) */}
+        <rect x="24" y="100" width="10" height="10" rx="1.5" fill={pixelColor} />
+        <rect x="24" y="115" width="10" height="10" rx="1.5" fill={pixelColor} />
+        <rect x="39" y="115" width="10" height="10" rx="1.5" fill={pixelColor} />
+        <rect x="54" y="115" width="10" height="10" rx="1.5" fill={pixelColor} />
 
         {/* Inner Gold Swoosh */}
         <path
           d="M 50 128 C 45 110, 52 90, 72 75 C 84 66, 96 62, 108 62 C 104 74, 95 82, 84 87 C 70 94, 62 108, 62 128 Z"
-          fill="url(#rawaes-gold)"
+          fill={`url(#rawaes-gold-${light ? "light" : "dark"})`}
         />
 
-        {/* Main Navy R Wing, Loop & Right Leg */}
+        {/* Main R Wing, Loop & Right Leg */}
         <path
           d="M 28 44 C 28 32, 40 24, 68 24 L 105 24 C 132 24, 146 38, 146 58 C 146 76, 134 88, 114 93 L 148 138 C 151 142, 148 146, 142 146 L 122 146 C 117 146, 113 143, 109 137 L 82 98 L 68 98 C 62 98, 56 102, 56 108 L 56 128 C 56 138, 44 142, 38 134 C 30 123, 28 100, 28 88 L 28 44 Z
              M 68 44 L 68 76 L 98 76 C 112 76, 120 69, 120 60 C 120 50, 112 44, 98 44 Z"
-          fill="#0D1B3D"
+          fill={primaryColor}
           fillRule="evenodd"
         />
       </svg>
@@ -67,43 +72,43 @@ export function RawaesLogo({
         aria-label="شعار روائس"
       >
         <defs>
-          <linearGradient id="rawaes-gold-hdr" x1="0%" y1="100%" x2="100%" y2="0%">
+          <linearGradient id={`rawaes-gold-hdr-${light ? "light" : "dark"}`} x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#B8862B" />
             <stop offset="50%" stopColor="#D4A24A" />
             <stop offset="100%" stopColor="#E5B869" />
           </linearGradient>
         </defs>
 
-        {/* 4 Navy Pixels */}
-        <rect x="24" y="100" width="10" height="10" rx="1.5" fill="#0D1B3D" />
-        <rect x="24" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
-        <rect x="39" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
-        <rect x="54" y="115" width="10" height="10" rx="1.5" fill="#0D1B3D" />
+        {/* 4 Pixels */}
+        <rect x="24" y="100" width="10" height="10" rx="1.5" fill={pixelColor} />
+        <rect x="24" y="115" width="10" height="10" rx="1.5" fill={pixelColor} />
+        <rect x="39" y="115" width="10" height="10" rx="1.5" fill={pixelColor} />
+        <rect x="54" y="115" width="10" height="10" rx="1.5" fill={pixelColor} />
 
         {/* Inner Gold Swoosh */}
         <path
           d="M 50 128 C 45 110, 52 90, 72 75 C 84 66, 96 62, 108 62 C 104 74, 95 82, 84 87 C 70 94, 62 108, 62 128 Z"
-          fill="url(#rawaes-gold-hdr)"
+          fill={`url(#rawaes-gold-hdr-${light ? "light" : "dark"})`}
         />
 
-        {/* Navy R Wing, Loop & Right Leg */}
+        {/* R Wing */}
         <path
           d="M 28 44 C 28 32, 40 24, 68 24 L 105 24 C 132 24, 146 38, 146 58 C 146 76, 134 88, 114 93 L 148 138 C 151 142, 148 146, 142 146 L 122 146 C 117 146, 113 143, 109 137 L 82 98 L 68 98 C 62 98, 56 102, 56 108 L 56 128 C 56 138, 44 142, 38 134 C 30 123, 28 100, 28 88 L 28 44 Z
              M 68 44 L 68 76 L 98 76 C 112 76, 120 69, 120 60 C 120 50, 112 44, 98 44 Z"
-          fill="#0D1B3D"
+          fill={primaryColor}
           fillRule="evenodd"
         />
       </svg>
 
       {/* Vertical Separator line if variant === "full" */}
       {variant === "full" && (
-        <div className="h-9 w-px bg-slate-300/80 self-center hidden sm:block" />
+        <div className={`h-9 w-px ${light ? "bg-white/20" : "bg-slate-300/80"} self-center hidden sm:block`} />
       )}
 
       {/* Brand Text Branding */}
       <div className="flex flex-col justify-center select-none" dir="ltr">
         {/* RAWAES header text strictly LTR */}
-        <div className="flex items-center text-[#0D1B3D] font-extrabold tracking-wider text-xl leading-none" dir="ltr">
+        <div className={`flex items-center ${light ? "text-white" : "text-[#0D1B3D]"} font-extrabold tracking-wider text-xl leading-none`} dir="ltr">
           <span>R</span>
           <span>A</span>
           <span>W</span>
@@ -120,7 +125,7 @@ export function RawaesLogo({
         </div>
 
         {/* Arabic Subtitle */}
-        <div className="mt-1 flex items-center gap-1 text-[11px] font-bold text-[#0D1B3D] tracking-tight" dir="rtl">
+        <div className={`mt-1 flex items-center gap-1 text-[11px] font-bold ${light ? "text-white/80" : "text-[#0D1B3D]"} tracking-tight`} dir="rtl">
           <span className="h-[1px] w-2.5 bg-[#D4A24A]" />
           <span>روائس للحلول البرمجية</span>
           <span className="h-[1px] w-2.5 bg-[#D4A24A]" />

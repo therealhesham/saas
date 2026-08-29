@@ -86,7 +86,7 @@ export function ContactModal({
           <button
             type="button"
             onClick={onClose}
-            className="absolute top-4 left-4 rounded-full p-1.5 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+            className="absolute top-4 left-4 rounded-full p-1.5 text-white/50 transition-colors hover:bg-white/10 hover:text-white cursor-pointer"
             aria-label="إغلاق"
           >
             <X className="size-5" />
@@ -94,7 +94,7 @@ export function ContactModal({
 
           {/* Logo + title */}
           <div className="flex flex-col items-center gap-3 text-center">
-            <RawaesLogo variant="icon" className="h-12 opacity-90" />
+            <RawaesLogo variant="icon" className="h-12 w-12" light={true} />
             <div>
               <h2 className="text-xl font-extrabold tracking-wide text-white sm:text-2xl">
                 ابدأ مجاناً
@@ -104,10 +104,6 @@ export function ContactModal({
               </p>
             </div>
 
-            {/* Gold badge */}
-            <div className="inline-flex items-center gap-1.5 rounded-full border border-[#D4A24A]/40 bg-[#D4A24A]/10 px-3 py-1 text-[11px] font-bold text-[#E5B869]">
-              14 يوماً تجربة مجانية · بدون بطاقة ائتمانية
-            </div>
           </div>
         </div>
 
@@ -129,7 +125,7 @@ export function ContactModal({
                   href={buildWhatsappUrl()}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0D1B3D] py-3.5 text-sm font-bold text-[#D4A24A] shadow-lg shadow-[#0D1B3D]/20 transition-all hover:bg-[#1a2e5a]"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#0D1B3D] py-3.5 text-sm font-bold text-[#D4A24A] shadow-lg shadow-[#0D1B3D]/20 transition-all hover:bg-[#1a2e5a] cursor-pointer"
                 >
                   <FaWhatsapp className="size-5 text-emerald-400" />
                   متابعة عبر الواتساب
@@ -137,7 +133,7 @@ export function ContactModal({
                 <button
                   type="button"
                   onClick={onClose}
-                  className="w-full rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors"
+                  className="w-full rounded-xl border border-slate-200 py-3 text-sm font-medium text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
                 >
                   إغلاق
                 </button>
@@ -238,7 +234,7 @@ export function ContactModal({
                   <button
                     type="submit"
                     disabled={pending}
-                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#0D1B3D] py-3.5 text-sm font-bold text-white shadow-lg shadow-[#0D1B3D]/25 transition-all hover:bg-[#1a2e5a] disabled:opacity-60"
+                    className="group inline-flex w-full items-center justify-center gap-2.5 rounded-xl bg-[#0D1B3D] py-3.5 text-sm font-bold text-white shadow-lg shadow-[#0D1B3D]/25 transition-all hover:bg-[#1a2e5a] disabled:opacity-60 cursor-pointer"
                   >
                     <Send className="size-4 text-[#D4A24A] transition-transform group-hover:-translate-x-1" />
                     {pending ? "جاري الإرسال..." : "إرسال الطلب للإدارة"}
@@ -247,7 +243,7 @@ export function ContactModal({
                   <button
                     type="button"
                     onClick={() => window.open(buildWhatsappUrl(), "_blank")}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#D4A24A]/40 bg-[#D4A24A]/5 py-3 text-sm font-semibold text-[#0D1B3D] transition-all hover:border-[#D4A24A] hover:bg-[#D4A24A]/10"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-[#D4A24A]/40 bg-[#D4A24A]/5 py-3 text-sm font-semibold text-[#0D1B3D] transition-all hover:border-[#D4A24A] hover:bg-[#D4A24A]/10 cursor-pointer"
                   >
                     <FaWhatsapp className="size-4 text-emerald-600" />
                     مراسلة مباشرة عبر الواتساب
