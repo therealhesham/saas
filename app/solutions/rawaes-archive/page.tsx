@@ -1,25 +1,24 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import {
-  ArrowLeft,
   ScanText,
   QrCode,
   ShieldCheck,
   Users,
   BarChart3,
   Cloud,
-  ExternalLink,
   CheckCircle2,
 } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { CtaSection } from "@/components/cta-section";
+import { RawaesArchiveCtaButtons } from "./cta-buttons";
 
 export const metadata: Metadata = {
-  title: "روائس للأرشفة الإلكترونية — معرض أعمال روائس",
+  title: "نظام الأرشفة الإلكترونية — حلول روائس",
   description:
     "نظام أرشفة إلكترونية ذكي يحوّل مستنداتك الورقية والرقمية لأرشيف منظم قابل للبحث، باستخراج نص تلقائي (OCR) وترميز QR/Barcode للأرشيف الورقي.",
   openGraph: {
-    title: "روائس للأرشفة الإلكترونية",
+    title: "نظام الأرشفة الإلكترونية — روائس",
     description:
       "نظام أرشفة إلكترونية ذكي يحوّل مستنداتك الورقية والرقمية لأرشيف منظم قابل للبحث.",
     images: ["/screenshots/rawaes-archive/dashboard.jpg"],
@@ -73,7 +72,7 @@ const gallery = [
   { src: "/screenshots/rawaes-archive/storage.jpg", alt: "إدارة التخزين السحابي" },
 ];
 
-export default function RawaesArchiveProjectPage() {
+export default function RawaesArchiveSolutionPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       <SiteHeader />
@@ -84,7 +83,7 @@ export default function RawaesArchiveProjectPage() {
 
         <div className="relative mx-auto max-w-6xl px-6 text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-xs font-bold text-[#0D1B3D] mb-6 shadow-xs">
-            أرشفة إلكترونية · SaaS
+            أرشفة إلكترونية · حلول روائس
           </div>
 
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
@@ -97,24 +96,7 @@ export default function RawaesArchiveProjectPage() {
             للأرشيف الورقي.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <a
-              href="https://archive.rawaes.com/"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-xl bg-[#0D1B3D] px-6 py-3 text-sm font-bold text-white shadow-md shadow-[#0D1B3D]/20 transition-all hover:bg-[#1a2e5a]"
-            >
-              معاينة المشروع الحي
-              <ExternalLink className="size-4" />
-            </a>
-            <a
-              href="/#pricing"
-              className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-all hover:bg-slate-50"
-            >
-              اطلب نظام مشابه
-              <ArrowLeft className="size-4" />
-            </a>
-          </div>
+          <RawaesArchiveCtaButtons />
         </div>
 
         {/* صورة غلاف */}
